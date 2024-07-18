@@ -7,7 +7,7 @@ edition = "2021"
 clap = "4.5.9"
 color-eyre = "0.6.3"
 serde = { version = "1.0.204", features = ["derive"] }
-thiserror = "1.0.62"
+thiserror = "1.0.63"
 toml = "0.8.14"
 
 [profile.release]
