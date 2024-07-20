@@ -1,0 +1,5 @@
+[cmake]
+
+[ccmake]
+apt = "cmake-curses-gui"
+pamac = "cmake"

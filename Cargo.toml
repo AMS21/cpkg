@@ -1,14 +1,15 @@
 [package]
 name = "cpkg"
+description = "The cross-platform meta package manager"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clap = "4.5.9"
-color-eyre = "0.6.3"
+clap = { version = "4.5.9", features = ["cargo"] }
+color-eyre = { version = "0.6.3", features = ["issue-url"], default-features = false }
 serde = { version = "1.0.204", features = ["derive"] }
-thiserror = "1.0.62"
-toml = "0.8.14"
+thiserror = "1.0.63"
+toml = "0.8.15"
 
 [profile.release]
 lto = "fat"
