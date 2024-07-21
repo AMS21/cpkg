@@ -44,6 +44,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Run sccache-cache
+      uses: mozilla-actions/sccache-action@v0.0.5
+
     - name: Audit Rust Dependencies
       uses: actions-rust-lang/audit@v1
 
