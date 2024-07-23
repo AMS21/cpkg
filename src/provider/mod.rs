@@ -2,7 +2,9 @@ use crate::database::Database;
 use crate::prelude::*;
 use crate::subcommand::install;
 
+#[cfg(feature = "apt")]
 pub mod apt;
+#[cfg(feature = "pamac")]
 pub mod pamac;
 
 pub trait Provider {
@@ -30,7 +32,9 @@ pub trait Provider {
 #[must_use]
 pub fn get_all_providers() -> Vec<Box<dyn Provider>> {
     vec![
+        #[cfg(feature = "apt")]
         Box::new(apt::AptProvider::initialize()),
+        #[cfg(feature = "pamac")]
         Box::new(pamac::PamacProvider::initialize()),
     ]
 }

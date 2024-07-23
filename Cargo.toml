@@ -11,6 +11,11 @@ serde = { version = "1.0.204", features = ["derive"] }
 thiserror = "1.0.63"
 toml = "0.8.15"
 
+[features]
+apt = []
+pamac = []
+default = ["apt", "pamac"]
+
 [profile.release]
 lto = "fat"
 
