@@ -19,6 +19,6 @@ pub enum Error {
     #[error("TOML serialization error")]
     TOMLSerialization(#[from] toml::ser::Error),
 
-    #[error("Failure while parsing command line arguments: '{0}'")]
+    #[error("Internal error:\nFailure while parsing command line arguments: '{0}'")]
     ClapArguments(&'static str),
 }
