@@ -1,6 +1,7 @@
 use crate::database::Database;
 use crate::prelude::*;
 use crate::subcommand::install;
+use crate::subcommand::remove;
 
 #[cfg(feature = "apt")]
 pub mod apt;
@@ -26,6 +27,13 @@ pub trait Provider {
         database: &Database,
         packages: &[&String],
         options: &install::Options,
+    ) -> Result<()>;
+
+    fn remove_packages(
+        &self,
+        database: &Database,
+        packages: &[&String],
+        options: &remove::Options,
     ) -> Result<()>;
 }
 

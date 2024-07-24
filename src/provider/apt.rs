@@ -76,7 +76,44 @@ impl Provider for AptProvider {
 
         // Handle dry run
         if options.dry_run {
-            command.arg("--dry-run");
+            command.arg("-s");
+        }
+
+        // run the actual command
+        command.spawn()?.wait()?;
+
+        Ok(())
+    }
+
+    fn remove_packages(
+        &self,
+        database: &Database,
+        packages: &[&String],
+        options: &crate::subcommand::remove::Options,
+    ) -> Result<()> {
+        let mut command = std::process::Command::new(&self.executable_path);
+
+        command.arg("remove");
+
+        // Now add all the translated package names
+        for package in packages {
+            if let Some(apt_package_name) = self.lookup_package(database, package) {
+                command.arg(apt_package_name);
+            } else {
+                return Err(Error::Generic(format!(
+                    "Package '{package}' not found in database"
+                )));
+            }
+        }
+
+        // Add -y if assume_yes is true
+        if options.assume_yes {
+            command.arg("-y");
+        }
+
+        // Handle dry run
+        if options.dry_run {
+            command.arg("-s");
         }
 
         // run the actual command

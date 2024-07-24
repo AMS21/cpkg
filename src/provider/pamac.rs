@@ -81,7 +81,46 @@ impl Provider for PamacProvider {
 
         // Handle dry run
         if options.dry_run {
-            command.arg("--dry-run");
+            command.arg("-d");
+        }
+
+        // run the actual command
+        command.spawn()?.wait()?;
+
+        Ok(())
+    }
+
+    fn remove_packages(
+        &self,
+        database: &crate::database::Database,
+        packages: &[&String],
+        options: &crate::subcommand::remove::Options,
+    ) -> Result<()> {
+        let mut command = std::process::Command::new(&self.executable_path);
+
+        command.arg("remove");
+
+        // TODO: This code is duplicated with apt.rs move it outside and make it generic
+        // Now add all the translated package names
+        for package in packages {
+            if let Some(apt_package_name) = self.lookup_package(database, package) {
+                command.arg(apt_package_name);
+            } else {
+                // TODO: Don't return generic error
+                return Err(Error::Generic(format!(
+                    "Package '{package}' not found in database"
+                )));
+            }
+        }
+
+        // Handle assume yes
+        if options.assume_yes {
+            command.arg("--no-confirm");
+        }
+
+        // Handle dry run
+        if options.dry_run {
+            command.arg("-d");
         }
 
         // run the actual command

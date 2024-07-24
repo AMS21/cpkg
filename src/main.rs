@@ -8,6 +8,8 @@ pub mod subcommand;
 pub mod utility;
 
 use crate::prelude::*;
+use subcommand::install;
+use subcommand::remove;
 
 fn main() -> Result<()> {
     color_eyre::install()?;
@@ -17,8 +19,12 @@ fn main() -> Result<()> {
     let matches = command_line.get_matches();
 
     match matches.subcommand() {
-        Some((subcommand::install::SUBCOMMAND_NAME, sub_matches)) => {
-            subcommand::install::run(sub_matches)?;
+        Some((install::SUBCOMMAND_NAME, sub_matches)) => {
+            install::run(sub_matches)?;
+        }
+
+        Some((remove::SUBCOMMAND_NAME, sub_matches)) => {
+            remove::run(sub_matches)?;
         }
 
         #[allow(clippy::unreachable)]

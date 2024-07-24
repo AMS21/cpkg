@@ -13,5 +13,8 @@ pub fn get_command_line() -> Command {
         .author(crate_authors!("\n"))
         .version(crate_version!())
         .arg_required_else_help(true)
-        .subcommand(subcommand::install::get_subcommand())
+        .subcommands([
+            subcommand::install::get_subcommand(),
+            subcommand::remove::get_subcommand(),
+        ])
 }
