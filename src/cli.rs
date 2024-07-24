@@ -24,6 +24,7 @@ pub const SUBCOMMAND_INSTALL: &str = "install";
 fn get_install_subcommand() -> Command {
     Command::new(SUBCOMMAND_INSTALL)
         .about("Installs given package(s)")
+        .visible_aliases(["add"])
         .args([
             get_argument_packages_list(),
             get_argument_assume_yes(),
@@ -37,6 +38,7 @@ pub const SUBCOMMAND_REMOVE: &str = "remove";
 pub fn get_remove_subcommand() -> Command {
     Command::new(SUBCOMMAND_REMOVE)
         .about("Removes given package(s)")
+        .visible_aliases(["uninstall", "delete"])
         .args([
             get_argument_packages_list(),
             get_argument_assume_yes(),
