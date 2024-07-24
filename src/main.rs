@@ -18,11 +18,11 @@ fn main() -> Result<()> {
     let matches = cli::get_command_line().get_matches();
 
     match matches.subcommand() {
-        Some((install::SUBCOMMAND_NAME, sub_matches)) => {
+        Some((cli::SUBCOMMAND_INSTALL, sub_matches)) => {
             install::run(sub_matches)?;
         }
 
-        Some((remove::SUBCOMMAND_NAME, sub_matches)) => {
+        Some((cli::SUBCOMMAND_REMOVE, sub_matches)) => {
             remove::run(sub_matches)?;
         }
 

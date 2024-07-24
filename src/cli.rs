@@ -5,20 +5,46 @@ use clap::crate_version;
 use clap::Arg;
 use clap::Command;
 
-use crate::subcommand;
-
 #[must_use]
 pub fn get_command_line() -> Command {
     Command::new(crate_name!())
         .about(crate_description!())
         .author(crate_authors!("\n"))
         .version(crate_version!())
+        .propagate_version(true)
         .arg_required_else_help(true)
-        .subcommands([
-            subcommand::install::get_subcommand(),
-            subcommand::remove::get_subcommand(),
+        .subcommands([get_install_subcommand(), get_remove_subcommand()])
+}
+
+// Commands
+
+pub const SUBCOMMAND_INSTALL: &str = "install";
+
+#[must_use]
+fn get_install_subcommand() -> Command {
+    Command::new(SUBCOMMAND_INSTALL)
+        .about("Installs given package(s)")
+        .args([
+            get_argument_packages_list(),
+            get_argument_assume_yes(),
+            get_argument_dry_run(),
         ])
 }
+
+pub const SUBCOMMAND_REMOVE: &str = "remove";
+
+#[must_use]
+pub fn get_remove_subcommand() -> Command {
+    Command::new(SUBCOMMAND_REMOVE)
+        .about("Removes given package(s)")
+        .args([
+            get_argument_packages_list(),
+            get_argument_assume_yes(),
+            get_argument_dry_run(),
+        ])
+}
+
+// Arguments
 
 pub const ARGUMENT_ASSUME_YES: &str = "YES";
 
@@ -27,7 +53,7 @@ pub fn get_argument_assume_yes() -> Arg {
     Arg::new(ARGUMENT_ASSUME_YES)
         .short('y')
         .long("assume-yes")
-        .alias("yes")
+        .visible_alias("yes")
         .action(clap::ArgAction::SetTrue)
         .help("Assume yes for all confirmation prompts")
 }
@@ -39,7 +65,7 @@ pub fn get_argument_dry_run() -> Arg {
     Arg::new(ARGUMENT_DRY_RUN)
         .short('d')
         .long("dry-run")
-        .alias("simulate")
+        .visible_alias("simulate")
         .action(clap::ArgAction::SetTrue)
         .help("Only print what would be done rather than actually doing it")
 }

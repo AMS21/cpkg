@@ -1,26 +1,9 @@
-use crate::cli::get_argument_assume_yes;
-use crate::cli::get_argument_dry_run;
-use crate::cli::get_argument_packages_list;
 use crate::cli::ARGUMENT_ASSUME_YES;
 use crate::cli::ARGUMENT_DRY_RUN;
 use crate::cli::ARGUMENT_PACKAGES;
 use crate::database;
 use crate::prelude::*;
 use crate::provider;
-use clap::Command;
-
-pub const SUBCOMMAND_NAME: &str = "remove";
-
-#[must_use]
-pub fn get_subcommand() -> Command {
-    Command::new(SUBCOMMAND_NAME)
-        .about("Removes given package(s)")
-        .args([
-            get_argument_packages_list(),
-            get_argument_assume_yes(),
-            get_argument_dry_run(),
-        ])
-}
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Options {

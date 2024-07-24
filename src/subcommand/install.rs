@@ -1,27 +1,9 @@
-use crate::cli::get_argument_assume_yes;
-use crate::cli::get_argument_dry_run;
-use crate::cli::get_argument_packages_list;
 use crate::cli::ARGUMENT_ASSUME_YES;
 use crate::cli::ARGUMENT_DRY_RUN;
+use crate::cli::ARGUMENT_PACKAGES;
 use crate::database;
 use crate::prelude::*;
 use crate::provider;
-use clap::Command;
-
-pub const SUBCOMMAND_NAME: &str = "install";
-
-const ARG_PACKAGES: &str = "PACKAGES";
-
-#[must_use]
-pub fn get_subcommand() -> clap::Command {
-    Command::new(SUBCOMMAND_NAME)
-        .about("Installs given package(s)")
-        .args([
-            get_argument_packages_list(),
-            get_argument_assume_yes(),
-            get_argument_dry_run(),
-        ])
-}
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Options {
@@ -33,7 +15,7 @@ pub struct Options {
 pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     // Get all packages the user wants to install from the command line
     let packages: Vec<&String> = matches
-        .get_many::<String>(ARG_PACKAGES)
+        .get_many::<String>(ARGUMENT_PACKAGES)
         .ok_or_else(|| Error::ClapArguments("PACKAGES argument should have been set"))?
         .collect();
 
