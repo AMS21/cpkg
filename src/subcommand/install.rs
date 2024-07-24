@@ -19,6 +19,7 @@ pub fn get_subcommand() -> clap::Command {
             Arg::new(ARG_ASSUME_YES)
                 .short('y')
                 .long("assume-yes")
+                .alias("yes")
                 .action(clap::ArgAction::SetTrue)
                 .help("Assume yes for all confirmation prompts"),
         )
