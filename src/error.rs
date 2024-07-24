@@ -1,3 +1,5 @@
+use std::process::ExitStatus;
+
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("Generic error: '{0}'")]
@@ -21,4 +23,10 @@ pub enum Error {
 
     #[error("Internal error:\nFailure while parsing command line arguments: '{0}'")]
     ClapArguments(&'static str),
+
+    #[error("Install command failed with exit code {0}")]
+    InstallCommandFailed(ExitStatus),
+
+    #[error("Remove command failed with exit code {0}")]
+    RemoveCommandFailed(ExitStatus),
 }

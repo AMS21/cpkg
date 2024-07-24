@@ -65,8 +65,12 @@ impl Provider for PamacProvider {
             command.arg("-d");
         }
 
-        // run the actual command
-        command.spawn()?.wait()?;
+        // Run the actual command
+        let return_code = command.spawn()?.wait()?;
+
+        if !return_code.success() {
+            return Err(Error::InstallCommandFailed(return_code));
+        }
 
         Ok(())
     }
@@ -91,8 +95,12 @@ impl Provider for PamacProvider {
             command.arg("-d");
         }
 
-        // run the actual command
-        command.spawn()?.wait()?;
+        // Run the actual command
+        let return_code = command.spawn()?.wait()?;
+
+        if !return_code.success() {
+            return Err(Error::RemoveCommandFailed(return_code));
+        }
 
         Ok(())
     }
