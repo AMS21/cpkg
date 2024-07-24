@@ -31,6 +31,7 @@ non_ascii_idents = "deny"
 
 [lints.clippy]
 # Allowed lints
+missing_errors_doc = "allow"
 
 # Enable clippy lint groups
 pedantic = { level = "warn", priority = -1 }

@@ -28,9 +28,13 @@ pub struct Options {
     pub assume_yes: bool,
 }
 
+#[allow(clippy::use_debug)]
 pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     // Get all packages the user wants to install
-    let packages: Vec<&String> = matches.get_many::<String>(ARG_PACKAGES).unwrap().collect();
+    let packages: Vec<&String> = matches
+        .get_many::<String>(ARG_PACKAGES)
+        .ok_or_else(|| Error::ClapArguments("PACKAGES argument should have been set"))?
+        .collect();
 
     // Get options
     let options = Options {
