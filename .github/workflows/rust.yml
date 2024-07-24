@@ -3,8 +3,26 @@ name: Rust
 on:
   pull_request:
     branches: ["*"]
+    paths:
+      # Workflow file itself
+      - '.github/workflows/rust.yml'
+      # Rust files
+      - '**.rs'
+      - '**.hpp'
+      # Cargo files
+      - 'Cargo.lock'
+      - 'Cargo.toml'
   push:
     branches: ["main", "develop"]
+    paths:
+      # Workflow file itself
+      - '.github/workflows/rust.yml'
+      # Rust files
+      - '**.rs'
+      - '**.hpp'
+      # Cargo files
+      - 'Cargo.lock'
+      - 'Cargo.toml'
   workflow_dispatch:
 
 concurrency:
