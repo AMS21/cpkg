@@ -1,34 +1,24 @@
+use crate::cli::get_argument_assume_yes;
+use crate::cli::get_argument_dry_run;
+use crate::cli::get_argument_packages_list;
+use crate::cli::ARGUMENT_ASSUME_YES;
+use crate::cli::ARGUMENT_DRY_RUN;
+use crate::cli::ARGUMENT_PACKAGES;
 use crate::database;
 use crate::prelude::*;
 use crate::provider;
-use clap::Arg;
-use clap::ArgAction;
 use clap::Command;
 
 pub const SUBCOMMAND_NAME: &str = "remove";
-
-const ARG_PACKAGES: &str = "PACKAGES";
-const ARG_ASSUME_YES: &str = "YES";
-const ARG_DRY_RUN: &str = "DRY_RUN";
 
 #[must_use]
 pub fn get_subcommand() -> Command {
     Command::new(SUBCOMMAND_NAME)
         .about("Removes given package(s)")
         .args([
-            Arg::new(ARG_PACKAGES).num_args(1..).required(true),
-            Arg::new(ARG_ASSUME_YES)
-                .short('y')
-                .long("assume-yes")
-                .alias("yes")
-                .action(ArgAction::SetTrue)
-                .help("Assume yes for all confirmation prompts"),
-            Arg::new(ARG_DRY_RUN)
-                .short('d')
-                .long("dry-run")
-                .alias("simulate")
-                .action(ArgAction::SetTrue)
-                .help("Only print what would be done rather than actually doing it"),
+            get_argument_packages_list(),
+            get_argument_assume_yes(),
+            get_argument_dry_run(),
         ])
 }
 
@@ -42,14 +32,14 @@ pub struct Options {
 pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     // Get all packages the user wants to remove from the command line
     let packages: Vec<&String> = matches
-        .get_many::<String>(ARG_PACKAGES)
+        .get_many::<String>(ARGUMENT_PACKAGES)
         .ok_or_else(|| Error::ClapArguments("PACKAGES argument should have been set"))?
         .collect();
 
     // Get options
     let options = Options {
-        assume_yes: matches.get_flag(ARG_ASSUME_YES),
-        dry_run: matches.get_flag(ARG_DRY_RUN),
+        assume_yes: matches.get_flag(ARGUMENT_ASSUME_YES),
+        dry_run: matches.get_flag(ARGUMENT_DRY_RUN),
     };
 
     // Load database
