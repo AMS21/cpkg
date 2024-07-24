@@ -6,7 +6,7 @@ edition = "2021"
 rust-version = "1.74.1"
 
 [dependencies]
-clap = { version = "4.5.9", features = ["cargo"] }
+clap = { version = "4.5.10", features = ["cargo"] }
 color-eyre = { version = "0.6.3", features = ["issue-url"], default-features = false }
 serde = { version = "1.0.204", features = ["derive"] }
 thiserror = "1.0.63"
