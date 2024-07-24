@@ -79,6 +79,11 @@ impl Provider for PamacProvider {
             command.arg("--no-confirm");
         }
 
+        // Handle dry run
+        if options.dry_run {
+            command.arg("--dry-run");
+        }
+
         // run the actual command
         command.spawn()?.wait()?;
 

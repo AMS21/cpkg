@@ -74,6 +74,11 @@ impl Provider for AptProvider {
             command.arg("-y");
         }
 
+        // Handle dry run
+        if options.dry_run {
+            command.arg("--dry-run");
+        }
+
         // run the actual command
         command.spawn()?.wait()?;
 
