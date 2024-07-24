@@ -1,19 +1,17 @@
 use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
-use crate::utility::file_exists;
+use std::path::PathBuf;
+use which::which;
 
 // TODO: Instead of installed boolean just have executable_path as Option
 // TODO: Generalize a lot of this maybe this a macro?
 
 #[allow(clippy::module_name_repetitions)]
 pub struct PamacProvider {
-    executable_path: String,
+    executable_path: PathBuf,
     installed: bool,
 }
-
-const USER_PAMAC_PATH: &str = "/usr/bin/pamac";
-const SYSTEM_PAMAC_PATH: &str = "/bin/pamac";
 
 impl Provider for PamacProvider {
     fn name(&self) -> &'static str {
@@ -21,23 +19,16 @@ impl Provider for PamacProvider {
     }
 
     fn initialize() -> Self {
-        if file_exists(USER_PAMAC_PATH) {
-            return Self {
-                executable_path: USER_PAMAC_PATH.to_owned(),
+        which("pamac").map_or_else(
+            |_| Self {
+                executable_path: PathBuf::new(),
+                installed: false,
+            },
+            |apt_path| Self {
+                executable_path: apt_path,
                 installed: true,
-            };
-        }
-        if file_exists(SYSTEM_PAMAC_PATH) {
-            return Self {
-                executable_path: SYSTEM_PAMAC_PATH.to_owned(),
-                installed: true,
-            };
-        }
-
-        Self {
-            executable_path: String::new(),
-            installed: false,
-        }
+            },
+        )
     }
 
     fn is_installed(&self) -> bool {

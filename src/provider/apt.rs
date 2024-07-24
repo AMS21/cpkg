@@ -2,16 +2,14 @@ use crate::database::Database;
 use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
-use crate::utility::file_exists;
+use std::path::PathBuf;
+use which::which;
 
 #[allow(clippy::module_name_repetitions)]
 pub struct AptProvider {
-    executable_path: String,
+    executable_path: PathBuf,
     installed: bool,
 }
-
-const USER_APT_PATH: &str = "/usr/bin/apt";
-const SYSTEM_APT_PATH: &str = "/bin/apt";
 
 impl Provider for AptProvider {
     fn name(&self) -> &'static str {
@@ -19,22 +17,16 @@ impl Provider for AptProvider {
     }
 
     fn initialize() -> Self {
-        if file_exists(USER_APT_PATH) {
-            return Self {
-                executable_path: USER_APT_PATH.to_owned(),
+        which("apt").map_or_else(
+            |_| Self {
+                executable_path: PathBuf::new(),
+                installed: false,
+            },
+            |apt_path| Self {
+                executable_path: apt_path,
                 installed: true,
-            };
-        } else if file_exists(SYSTEM_APT_PATH) {
-            return Self {
-                executable_path: SYSTEM_APT_PATH.to_owned(),
-                installed: true,
-            };
-        }
-
-        Self {
-            executable_path: String::new(),
-            installed: false,
-        }
+            },
+        )
     }
 
     fn is_installed(&self) -> bool {
