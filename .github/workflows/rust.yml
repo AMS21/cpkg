@@ -31,11 +31,15 @@ jobs:
       with:
         components: clippy
 
+    - uses: taiki-e/install-action@v2
+      with:
+        tool: cargo-hack
+
     - name: Run sccache-cache
       uses: mozilla-actions/sccache-action@v0.0.5
 
     - name: Clippy
-      run: cargo clippy -- -D warnings
+      run: cargo hack clippy --feature-powerset --verbose -- -D warnings
 
   audit:
     runs-on: ubuntu-latest
