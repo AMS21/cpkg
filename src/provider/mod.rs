@@ -1,4 +1,4 @@
-use crate::database::Database;
+use crate::application::Application;
 use crate::prelude::*;
 use crate::subcommand::install;
 use crate::subcommand::remove;
@@ -20,21 +20,11 @@ pub trait Provider {
     #[must_use]
     fn is_installed(&self) -> bool;
 
-    fn lookup_package(&self, database: &Database, package_name: &str) -> Option<String>;
+    fn lookup_package(&self, application: &Application, package_name: &str) -> String;
 
-    fn install_packages(
-        &self,
-        database: &Database,
-        packages: &[&String],
-        options: &install::Options,
-    ) -> Result<()>;
+    fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()>;
 
-    fn remove_packages(
-        &self,
-        database: &Database,
-        packages: &[&String],
-        options: &remove::Options,
-    ) -> Result<()>;
+    fn remove_packages(&self, packages: &[String], options: &remove::Options) -> Result<()>;
 }
 
 #[must_use]

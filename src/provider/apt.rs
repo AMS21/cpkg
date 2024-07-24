@@ -1,4 +1,4 @@
-use crate::database::Database;
+use crate::application::Application;
 use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
@@ -33,37 +33,22 @@ impl Provider for AptProvider {
         self.installed
     }
 
-    fn lookup_package(&self, database: &Database, package_name: &str) -> Option<String> {
-        if let Some(app) = database.packages.get(package_name) {
-            if let Some(apt_string) = &app.apt {
-                return Some(apt_string.to_string());
-            }
-
-            return Some(package_name.to_owned());
+    fn lookup_package(&self, application: &Application, package_name: &str) -> String {
+        if let Some(apt_string) = &application.apt {
+            return apt_string.to_string();
         }
 
-        None
+        package_name.to_owned()
     }
 
-    fn install_packages(
-        &self,
-        database: &Database,
-        packages: &[&String],
-        options: &install::Options,
-    ) -> Result<()> {
+    fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()> {
         let mut command = std::process::Command::new(&self.executable_path);
 
         command.arg("install");
 
         // Now add all the translated package names
         for package in packages {
-            if let Some(apt_package_name) = self.lookup_package(database, package) {
-                command.arg(apt_package_name);
-            } else {
-                return Err(Error::Generic(format!(
-                    "Package '{package}' not found in database"
-                )));
-            }
+            command.arg(package);
         }
 
         // Don't install recommended packages
@@ -87,8 +72,7 @@ impl Provider for AptProvider {
 
     fn remove_packages(
         &self,
-        database: &Database,
-        packages: &[&String],
+        packages: &[String],
         options: &crate::subcommand::remove::Options,
     ) -> Result<()> {
         let mut command = std::process::Command::new(&self.executable_path);
@@ -97,13 +81,7 @@ impl Provider for AptProvider {
 
         // Now add all the translated package names
         for package in packages {
-            if let Some(apt_package_name) = self.lookup_package(database, package) {
-                command.arg(apt_package_name);
-            } else {
-                return Err(Error::Generic(format!(
-                    "Package '{package}' not found in database"
-                )));
-            }
+            command.arg(package);
         }
 
         // Add -y if assume_yes is true

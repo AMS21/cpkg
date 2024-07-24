@@ -1,11 +1,13 @@
+use crate::application::Application;
 use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
+use crate::subcommand::remove;
 use std::path::PathBuf;
 use which::which;
 
 // TODO: Instead of installed boolean just have executable_path as Option
-// TODO: Generalize a lot of this maybe this a macro?
+// TODO: Generalize a lot of this maybe with a macro?
 
 #[allow(clippy::module_name_repetitions)]
 pub struct PamacProvider {
@@ -35,43 +37,22 @@ impl Provider for PamacProvider {
         self.installed
     }
 
-    fn lookup_package(
-        &self,
-        database: &crate::database::Database,
-        package_name: &str,
-    ) -> Option<String> {
-        if let Some(application) = database.packages.get(package_name) {
-            if let Some(pamac_string) = &application.pamac {
-                return Some(pamac_string.to_owned());
-            }
-
-            return Some(package_name.to_owned());
+    fn lookup_package(&self, application: &Application, package_name: &str) -> String {
+        if let Some(pamac_string) = &application.pamac {
+            return pamac_string.to_owned();
         }
 
-        None
+        package_name.to_owned()
     }
 
-    fn install_packages(
-        &self,
-        database: &crate::database::Database,
-        packages: &[&String],
-        options: &install::Options,
-    ) -> Result<()> {
+    fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()> {
         let mut command = std::process::Command::new(&self.executable_path);
 
         command.arg("install");
 
-        // TODO: This code is duplicated with apt.rs move it outside and make it generic
         // Now add all the translated package names
         for package in packages {
-            if let Some(apt_package_name) = self.lookup_package(database, package) {
-                command.arg(apt_package_name);
-            } else {
-                // TODO: Don't return generic error
-                return Err(Error::Generic(format!(
-                    "Package '{package}' not found in database"
-                )));
-            }
+            command.arg(package);
         }
 
         // Handle assume yes
@@ -90,27 +71,14 @@ impl Provider for PamacProvider {
         Ok(())
     }
 
-    fn remove_packages(
-        &self,
-        database: &crate::database::Database,
-        packages: &[&String],
-        options: &crate::subcommand::remove::Options,
-    ) -> Result<()> {
+    fn remove_packages(&self, packages: &[String], options: &remove::Options) -> Result<()> {
         let mut command = std::process::Command::new(&self.executable_path);
 
         command.arg("remove");
 
-        // TODO: This code is duplicated with apt.rs move it outside and make it generic
         // Now add all the translated package names
         for package in packages {
-            if let Some(apt_package_name) = self.lookup_package(database, package) {
-                command.arg(apt_package_name);
-            } else {
-                // TODO: Don't return generic error
-                return Err(Error::Generic(format!(
-                    "Package '{package}' not found in database"
-                )));
-            }
+            command.arg(package);
         }
 
         // Handle assume yes

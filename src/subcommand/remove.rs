@@ -60,10 +60,26 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
 
     // TODO: Use a hiarchey to remove and not all of them
     for provider in providers {
-        if provider.is_installed() {
-            println!("Removing {:?} with {}", packages, provider.name());
-            provider.remove_packages(&database, packages.as_slice(), &options)?;
+        if !provider.is_installed() {
+            continue;
         }
+
+        // Translate packages
+        let mut translated_packages = Vec::with_capacity(packages.len());
+
+        for package_name in &packages {
+            if let Some(application) = database.packages.get(package_name as &str) {
+                translated_packages.push(provider.lookup_package(application, package_name));
+            } else {
+                // TODO: Don't return generic error
+                return Err(Error::Generic(format!(
+                    "Package '{package_name}' not found in database"
+                )));
+            }
+        }
+
+        println!("Removing {:?} with {}", packages, provider.name());
+        provider.remove_packages(&translated_packages, &options)?;
     }
 
     Ok(())
