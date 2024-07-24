@@ -1,0 +1,46 @@
+name: StyleCheck
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["main", "develop"]
+  workflow_dispatch:
+
+concurrency:
+  # Documentation suggests ${{ github.head_ref }}, but that's only available on pull_request/pull_request_target triggers, so using ${{ github.ref }}.
+  # On main, we want all builds to complete even if merging happens faster to make it easier to discover at which point something broke.
+  group: ${{ github.ref == 'refs/heads/main' && format('ci-main-{0}', github.sha) || format('ci-{0}', github.ref) }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  SCCACHE_GHA_ENABLED: "true"
+  RUSTC_WRAPPER: "sccache"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install rust toolchain
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+
+    - name: Install taplo
+      run: cargo install taplo-cli --locked
+
+    - name: Run Taplo
+      id: taplo
+      run: taplo fmt --check --diff
+
+    - name: Taplo info
+      if: failure()
+      run: |
+          echo 'To fix toml fmt, please run `taplo fmt`'
+          echo 'To check for a diff, run `taplo fmt --check --diff'
+          echo 'You can find taplo here: https://taplo.tamasfe.dev/'
+          echo 'Or if you use VSCode, use the `Even Better Toml` extension with 2 spaces'
+          echo 'You can find the extension here: https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml'
