@@ -36,3 +36,11 @@ pub fn get_all_providers() -> Vec<Box<dyn Provider>> {
         Box::new(pamac::PamacProvider::initialize()),
     ]
 }
+
+#[must_use]
+pub fn get_number_of_installed_providers() -> usize {
+    get_all_providers()
+        .iter()
+        .filter(|provider| provider.is_installed())
+        .count()
+}
