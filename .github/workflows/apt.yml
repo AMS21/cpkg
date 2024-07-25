@@ -1,0 +1,80 @@
+name: apt
+
+on:
+  pull_request:
+    branches: ["*"]
+    paths:
+      # Workflow file itself
+      - '.github/workflows/apt.yml'
+      # Rust files
+      - '**.rs'
+      # Cargo files
+      - 'Cargo.lock'
+      - 'Cargo.toml'
+      # database
+      - "database.toml"
+  push:
+    branches: ["main", "develop"]
+    paths:
+      # Workflow file itself
+      - '.github/workflows/rust.yml'
+      # Rust files
+      - '**.rs'
+      # Cargo files
+      - 'Cargo.lock'
+      - 'Cargo.toml'
+      # database
+      - "database.toml"
+  workflow_dispatch:
+
+concurrency:
+  # Documentation suggests ${{ github.head_ref }}, but that's only available on pull_request/pull_request_target triggers, so using ${{ github.ref }}.
+  # On main, we want all builds to complete even if merging happens faster to make it easier to discover at which point something broke.
+  group: ${{ github.ref == 'refs/heads/main' && format('ci-main-{0}', github.sha) || format('ci-{0}', github.ref) }}-${{github.workflow }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  apt:
+    runs-on: ubuntu-latest
+    container:
+      image: ams21/cpkg-docker:ubuntu-${{ matrix.version }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        version:
+          - "24.04"
+          - "23.10"
+          - "23.04"
+          - "22.10"
+          - "22.04"
+          - "21.10"
+          - "21.04"
+          - "20.10"
+          - "20.04"
+          - "19.10"
+          - "19.04"
+          - "18.10"
+          - "18.04"
+          - "17.10"
+          - "17.04"
+          - "16.10"
+          - "16.04"
+          - "15.10"
+          - "15.04"
+          - "14.10"
+          - "14.04"
+
+    steps:
+      - name: Checkout
+        uses: taiki-e/checkout-action@v1
+
+      - name: Update apt
+        run: apt update
+
+      - name: Test
+        run: cargo test --no-default-features --features "apt"
