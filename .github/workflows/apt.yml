@@ -40,34 +40,43 @@ jobs:
   apt:
     runs-on: ubuntu-latest
     container:
-      image: ams21/cpkg-docker:ubuntu-${{ matrix.version }}
+      image: ams21/cpkg-docker:${{ matrix.version }}
 
     strategy:
       fail-fast: false
 
       matrix:
         version:
-          - "24.04"
-          - "23.10"
-          - "23.04"
-          - "22.10"
-          - "22.04"
-          - "21.10"
-          - "21.04"
-          - "20.10"
-          - "20.04"
-          - "19.10"
-          - "19.04"
-          - "18.10"
-          - "18.04"
-          - "17.10"
-          - "17.04"
-          - "16.10"
-          - "16.04"
-          - "15.10"
-          - "15.04"
-          - "14.10"
-          - "14.04"
+          # Debian
+          - "debian-testing"
+          - "debian-unstable"
+          - "debian-12"
+          - "debian-11"
+          - "debian-10"
+          - "debian-9"
+
+          # Ubuntu
+          - "ubuntu-24.04"
+          - "ubuntu-23.10"
+          - "ubuntu-23.04"
+          - "ubuntu-22.10"
+          - "ubuntu-22.04"
+          - "ubuntu-21.10"
+          - "ubuntu-21.04"
+          - "ubuntu-20.10"
+          - "ubuntu-20.04"
+          - "ubuntu-19.10"
+          - "ubuntu-19.04"
+          - "ubuntu-18.10"
+          - "ubuntu-18.04"
+          - "ubuntu-17.10"
+          - "ubuntu-17.04"
+          - "ubuntu-16.10"
+          - "ubuntu-16.04"
+          - "ubuntu-15.10"
+          - "ubuntu-15.04"
+          - "ubuntu-14.10"
+          - "ubuntu-14.04"
 
     steps:
       - name: Checkout
