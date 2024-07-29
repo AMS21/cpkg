@@ -31,6 +31,7 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: "full"
 
 jobs:
   lint:
@@ -129,3 +130,29 @@ jobs:
       env:
         RUSTDOCFLAGS: -D warnings
       run: cargo doc --workspace --all-features --no-deps --document-private-items
+
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install rust toolchain
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
+        toolchain: nightly
+
+    - name: Install tarpaulin
+      uses: taiki-e/install-action@v2
+      with:
+        tool: cargo-tarpaulin
+
+    - name: Run cargo-tarpaulin
+      run: cargo tarpaulin --verbose --all-targets --doc --all-features --follow-exec --locked --post-test-delay 2 --out Xml --engine llvm
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
