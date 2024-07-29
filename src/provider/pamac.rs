@@ -4,6 +4,8 @@ use crate::provider::Provider;
 use crate::subcommand::install;
 use crate::subcommand::remove;
 use std::path::PathBuf;
+
+#[cfg(target_os = "linux")]
 use which::which;
 
 // TODO: Instead of installed boolean just have executable_path as Option
@@ -21,7 +23,8 @@ impl Provider for PamacProvider {
     }
 
     fn initialize() -> Self {
-        which("pamac").map_or_else(
+        #[cfg(target_os = "linux")]
+        return which("pamac").map_or_else(
             |_| Self {
                 executable_path: PathBuf::new(),
                 installed: false,
@@ -30,7 +33,12 @@ impl Provider for PamacProvider {
                 executable_path: apt_path,
                 installed: true,
             },
-        )
+        );
+        #[cfg(not(target_os = "linux"))]
+        return Self {
+            executable_path: PathBuf::new(),
+            installed: false,
+        };
     }
 
     fn is_installed(&self) -> bool {
