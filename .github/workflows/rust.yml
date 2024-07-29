@@ -33,6 +33,7 @@ env:
   CARGO_TERM_COLOR: always
   SCCACHE_GHA_ENABLED: "true"
   RUSTC_WRAPPER: "sccache"
+  RUST_BACKTRACE: "full"
 
 jobs:
   lint:
@@ -137,3 +138,31 @@ jobs:
       env:
         RUSTDOCFLAGS: -D warnings
       run: cargo doc --workspace --all-features --no-deps --document-private-items
+
+  coverage:
+    runs-on: ubuntu-latest
+
+    env:
+      RUSTC_WRAPPER: "" # Need to disable sccache for coverage since its a bit buggy
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install rust toolchain
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
+        toolchain: stable
+
+    - name: Install tarpaulin
+      uses: taiki-e/install-action@v2
+      with:
+        tool: cargo-tarpaulin
+
+    - name: Run cargo-tarpaulin
+      run: cargo tarpaulin --all-targets --follow-exec --locked --post-test-delay 10 --out Xml
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
