@@ -5,9 +5,6 @@ use crate::subcommand::install;
 use crate::subcommand::remove;
 use std::path::PathBuf;
 
-#[cfg(target_os = "linux")]
-use which::which;
-
 // TODO: Instead of installed boolean just have executable_path as Option
 // TODO: Generalize a lot of this maybe with a macro?
 
@@ -23,22 +20,23 @@ impl Provider for PamacProvider {
     }
 
     fn initialize() -> Self {
-        #[cfg(target_os = "linux")]
-        return which("pamac").map_or_else(
-            |_| Self {
+        if cfg!(target_os = "linux") {
+            which::which("pamac").map_or_else(
+                |_| Self {
+                    executable_path: PathBuf::new(),
+                    installed: false,
+                },
+                |apt_path| Self {
+                    executable_path: apt_path,
+                    installed: true,
+                },
+            )
+        } else {
+            Self {
                 executable_path: PathBuf::new(),
                 installed: false,
-            },
-            |apt_path| Self {
-                executable_path: apt_path,
-                installed: true,
-            },
-        );
-        #[cfg(not(target_os = "linux"))]
-        return Self {
-            executable_path: PathBuf::new(),
-            installed: false,
-        };
+            }
+        }
     }
 
     fn is_installed(&self) -> bool {

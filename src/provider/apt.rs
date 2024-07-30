@@ -4,9 +4,6 @@ use crate::provider::Provider;
 use crate::subcommand::install;
 use std::path::PathBuf;
 
-#[cfg(target_os = "linux")]
-use which::which;
-
 #[allow(clippy::module_name_repetitions)]
 pub struct AptProvider {
     executable_path: PathBuf,
@@ -19,22 +16,23 @@ impl Provider for AptProvider {
     }
 
     fn initialize() -> Self {
-        #[cfg(target_os = "linux")]
-        return which("apt").map_or_else(
-            |_| Self {
+        if cfg!(target_os = "linux") {
+            which::which("apt").map_or_else(
+                |_| Self {
+                    executable_path: PathBuf::new(),
+                    installed: false,
+                },
+                |apt_path| Self {
+                    executable_path: apt_path,
+                    installed: true,
+                },
+            )
+        } else {
+            Self {
                 executable_path: PathBuf::new(),
                 installed: false,
-            },
-            |apt_path| Self {
-                executable_path: apt_path,
-                installed: true,
-            },
-        );
-        #[cfg(not(target_os = "linux"))]
-        return Self {
-            executable_path: PathBuf::new(),
-            installed: false,
-        };
+            }
+        }
     }
 
     fn is_installed(&self) -> bool {
