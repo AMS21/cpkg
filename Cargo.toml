@@ -21,7 +21,7 @@ color-eyre = { version = "0.6.3", features = [
 ], default-features = false }
 serde = { version = "1.0.204", features = ["derive"] }
 thiserror = "1.0.63"
-toml = "0.8.16"
+toml = "0.8.17"
 which = "6.0.2"
 
 [build-dependencies]
