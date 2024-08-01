@@ -73,6 +73,7 @@ jobs:
           - "linuxmint-17"
 
           # Ubuntu
+          - "ubuntu-24.10"
           - "ubuntu-24.04"
           - "ubuntu-23.10"
           - "ubuntu-23.04"
