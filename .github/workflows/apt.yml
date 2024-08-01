@@ -55,6 +55,23 @@ jobs:
           - "debian-10"
           - "debian-9"
 
+          # Linux Mint
+          - "linuxmint-22"
+          - "linuxmint-21.3"
+          - "linuxmint-21.2"
+          - "linuxmint-21.1"
+          - "linuxmint-21"
+          - "linuxmint-20.3"
+          - "linuxmint-20.2"
+          - "linuxmint-20.1"
+          - "linuxmint-20"
+          - "linuxmint-19.3"
+          - "linuxmint-19.2"
+          - "linuxmint-19.1"
+          - "linuxmint-19"
+          - "linuxmint-18"
+          - "linuxmint-17"
+
           # Ubuntu
           - "ubuntu-24.04"
           - "ubuntu-23.10"
