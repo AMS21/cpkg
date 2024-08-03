@@ -29,4 +29,7 @@ pub enum Error {
 
     #[error("Remove command failed with exit code {0}")]
     RemoveCommandFailed(ExitStatus),
+
+    #[error("Reinstall command failed with exit code {0}")]
+    ReinstallCommandFailed(ExitStatus),
 }

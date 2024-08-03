@@ -110,4 +110,36 @@ impl Provider for PamacProvider {
 
         Ok(())
     }
+
+    fn reinstall_packages(
+        &self,
+        packages: &[String],
+        options: &crate::subcommand::reinstall::Options,
+    ) -> Result<()> {
+        let mut command = std::process::Command::new(&self.executable_path);
+
+        command.arg("reinstall");
+
+        // Now add all the translated package names
+        for package in packages {
+            command.arg(package);
+        }
+
+        // Handle assume yes
+        if options.assume_yes {
+            command.arg("--no-confirm");
+        }
+
+        // Handle dry run
+        // NOTE: pamac reinstall can't handle dry run
+
+        // Run the actual command
+        let return_code = command.spawn()?.wait()?;
+
+        if !return_code.success() {
+            return Err(Error::RemoveCommandFailed(return_code));
+        }
+
+        Ok(())
+    }
 }
