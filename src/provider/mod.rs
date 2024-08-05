@@ -1,6 +1,7 @@
 use crate::application::Application;
 use crate::prelude::*;
 use crate::subcommand::install;
+use crate::subcommand::reinstall;
 use crate::subcommand::remove;
 
 #[cfg(feature = "apt")]
@@ -25,6 +26,8 @@ pub trait Provider {
     fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()>;
 
     fn remove_packages(&self, packages: &[String], options: &remove::Options) -> Result<()>;
+
+    fn reinstall_packages(&self, packages: &[String], options: &reinstall::Options) -> Result<()>;
 }
 
 #[must_use]

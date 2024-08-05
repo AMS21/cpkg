@@ -13,7 +13,11 @@ pub fn get_command_line() -> Command {
         .version(crate_version!())
         .propagate_version(true)
         .arg_required_else_help(true)
-        .subcommands([get_install_subcommand(), get_remove_subcommand()])
+        .subcommands([
+            get_install_subcommand(),
+            get_remove_subcommand(),
+            get_reinstall_subcommand(),
+        ])
 }
 
 // Commands
@@ -39,6 +43,19 @@ pub fn get_remove_subcommand() -> Command {
     Command::new(SUBCOMMAND_REMOVE)
         .about("Removes given package(s)")
         .visible_aliases(["uninstall", "delete"])
+        .args([
+            get_argument_packages_list(),
+            get_argument_assume_yes(),
+            get_argument_dry_run(),
+        ])
+}
+
+pub const SUBCOMMAND_REINSTALL: &str = "reinstall";
+
+#[must_use]
+pub fn get_reinstall_subcommand() -> Command {
+    Command::new(SUBCOMMAND_REINSTALL)
+        .about("Reinstalls given package(s)")
         .args([
             get_argument_packages_list(),
             get_argument_assume_yes(),

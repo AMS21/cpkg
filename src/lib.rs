@@ -9,6 +9,7 @@ pub mod utility;
 
 use prelude::*;
 use subcommand::install;
+use subcommand::reinstall;
 use subcommand::remove;
 
 pub fn run_main() -> Result<()> {
@@ -22,6 +23,10 @@ pub fn run_main() -> Result<()> {
 
         Some((cli::SUBCOMMAND_REMOVE, sub_matches)) => {
             remove::run(sub_matches)?;
+        }
+
+        Some((cli::SUBCOMMAND_REINSTALL, sub_matches)) => {
+            reinstall::run(sub_matches)?;
         }
 
         #[allow(clippy::unreachable)]
