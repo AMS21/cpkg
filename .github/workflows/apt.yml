@@ -55,6 +55,10 @@ jobs:
           - "debian-10"
           - "debian-9"
 
+          # Kali Linux
+          - "kalilinux-rolling"
+          - "kalilinux-last-release"
+
           # Linux Mint
           - "linuxmint-22"
           - "linuxmint-21.3"
