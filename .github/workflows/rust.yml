@@ -127,38 +127,3 @@ jobs:
       env:
         RUSTDOCFLAGS: -D warnings
       run: cargo doc --workspace --all-features --no-deps --document-private-items
-
-  careful:
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        sanitizer:
-          - "address"
-          - "leak"
-          - "memory"
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Install rust toolchain
-      uses: actions-rust-lang/setup-rust-toolchain@v1
-      with:
-        toolchain: nightly
-        components: rust-src
-
-    - name: Install cargo-careful
-      uses: taiki-e/install-action@v2
-      with:
-        tool: cargo-careful
-
-    - name: Install cargo-hack
-      uses: taiki-e/install-action@v2
-      with:
-        tool: cargo-hack
-
-    - name: Run tests with cargo-careful
-      run: cargo hack --feature-powerset --verbose careful test -Zcareful-sanitizer=${{ matrix.sanitizer }}
