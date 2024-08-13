@@ -89,6 +89,11 @@ jobs:
           - "linuxmint-18"
           - "linuxmint-17"
 
+          # Linux Mint Debian Edition
+          - "lmde-6"
+          - "lmde-5"
+          - "lmde-4"
+
           # Ubuntu
           - "ubuntu-24.10"
           - "ubuntu-24.04"
