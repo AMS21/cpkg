@@ -55,6 +55,19 @@ jobs:
           - "debian-10"
           - "debian-9"
 
+          # Elementary OS
+          - "elementaryos-horus-stable"
+          - "elementaryos-horus-unstable"
+          - "elementaryos-juno-stable"
+          - "elementaryos-juno-unstable"
+          - "elementaryos-loki-stable"
+          - "elementaryos-loki-unstable"
+          - "elementaryos-odin-stable"
+          - "elementaryos-odin-unstable"
+          - "elementaryos-ubuntu-lunar-unstable"
+          - "elementaryos-ubuntu-mantic-unstable"
+          - "elementaryos-ubuntu-noble-unstable"
+
           # Kali Linux
           - "kalilinux-rolling"
           - "kalilinux-last-release"
