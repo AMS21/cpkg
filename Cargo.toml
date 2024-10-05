@@ -15,29 +15,37 @@ name = "cpkg"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.19", features = ["cargo"] }
-color-eyre = { version = "0.6.3", features = [
-  "issue-url",
+clap = { version = "4.5.19", features = [
+  "std",
+  "color",
+  "help",
+  "usage",
+  "error-context",
+  "suggestions",
+  "cargo",
 ], default-features = false }
-serde = { version = "1.0.210", features = ["derive"] }
-thiserror = "1.0.64"
-toml = "0.8.19"
-which = "6.0.3"
+color-eyre = { version = "0.6.3", default-features = false }
+serde = { version = "1.0.210", features = ["derive"], default-features = false }
+thiserror = { version = "1.0.64", default-features = false }
+toml = { version = "0.8.19", features = ["parse"], default-features = false }
+which = { version = "6.0.3", default-features = false }
 
 [build-dependencies]
-clap = { version = "4.5.19", features = ["cargo"] }
-clap_complete = "4.5.32"
-clap_complete_fig = "4.5.2"
-clap_complete_nushell = "4.5.3"
-clap_mangen = "0.2.23"
+clap = { version = "4.5.19", features = ["cargo"], default-features = false }
+clap_complete = { version = "4.5.32", default-features = false }
+clap_complete_fig = { version = "4.5.2", default-features = false }
+clap_complete_nushell = { version = "4.5.3", default-features = false }
+clap_mangen = { version = "0.2.23", default-features = false }
 
 [dev-dependencies]
-assert_cmd = "2.0.16"
+assert_cmd = { version = "2.0.16", default-features = false }
 
 [features]
+default = ["apt", "pamac"]
+
+# Package providers
 apt = []
 pamac = []
-default = ["apt", "pamac"]
 
 [profile.release]
 lto = "fat"
