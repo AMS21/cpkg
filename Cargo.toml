@@ -35,7 +35,7 @@ clap = { version = "4.5.19", features = ["cargo"], default-features = false }
 clap_complete = { version = "4.5.32", default-features = false }
 clap_complete_fig = { version = "4.5.2", default-features = false }
 clap_complete_nushell = { version = "4.5.3", default-features = false }
-clap_mangen = { version = "0.2.23", default-features = false }
+clap_mangen = { version = "0.2.24", default-features = false }
 
 [dev-dependencies]
 assert_cmd = { version = "2.0.16", default-features = false }
