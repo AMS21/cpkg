@@ -34,7 +34,7 @@ which = { version = "6.0.3", default-features = false }
 clap = { version = "4.5.20", features = ["cargo"], default-features = false }
 clap_complete = { version = "4.5.33", default-features = false }
 clap_complete_fig = { version = "4.5.2", default-features = false }
-clap_complete_nushell = { version = "4.5.3", default-features = false }
+clap_complete_nushell = { version = "4.5.4", default-features = false }
 clap_mangen = { version = "0.2.24", default-features = false }
 
 [dev-dependencies]
