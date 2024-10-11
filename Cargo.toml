@@ -48,7 +48,9 @@ apt = []
 pamac = []
 
 [profile.release]
+codegen-units = 1
 lto = "fat"
+strip = "symbols"
 
 # Enable high optimizations for dependencies but not for our code:
 [profile.dev.package."*"]
