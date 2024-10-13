@@ -2,6 +2,7 @@ use crate::application::Application;
 use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
+use crate::utility::command_to_full_string;
 use std::path::PathBuf;
 
 #[allow(clippy::module_name_repetitions)]
@@ -74,7 +75,10 @@ impl Provider for AptProvider {
         let return_code = command.spawn()?.wait()?;
 
         if !return_code.success() {
-            return Err(Error::InstallCommandFailed(return_code));
+            return Err(Error::InstallCommandFailed {
+                exit_code: return_code,
+                command_line: command_to_full_string(&command)?,
+            });
         }
 
         Ok(())
@@ -108,7 +112,10 @@ impl Provider for AptProvider {
         let return_code = command.spawn()?.wait()?;
 
         if !return_code.success() {
-            return Err(Error::RemoveCommandFailed(return_code));
+            return Err(Error::RemoveCommandFailed {
+                exit_code: return_code,
+                command_line: command_to_full_string(&command)?,
+            });
         }
 
         Ok(())
@@ -142,7 +149,10 @@ impl Provider for AptProvider {
         let return_code = command.spawn()?.wait()?;
 
         if !return_code.success() {
-            return Err(Error::ReinstallCommandFailed(return_code));
+            return Err(Error::ReinstallCommandFailed {
+                exit_code: return_code,
+                command_line: command_to_full_string(&command)?,
+            });
         }
 
         Ok(())

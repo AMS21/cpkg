@@ -1,35 +1,53 @@
+use derive_more::From;
+use std::ffi::OsString;
 use std::process::ExitStatus;
 
-#[derive(thiserror::Error, Debug)]
+#[derive(Debug, From)]
 pub enum Error {
-    #[error("Generic error: '{0}'")]
-    Generic(String),
+    // -- User errors --
+    InstallCommandFailed {
+        exit_code: ExitStatus,
+        command_line: String,
+    },
 
-    // TODO: Remove me and replace with specialized error types
-    #[error("Static error: '{0}'")]
-    Static(&'static str),
+    RemoveCommandFailed {
+        exit_code: ExitStatus,
+        command_line: String,
+    },
 
-    #[error("Failed to install color_eyre")]
-    ColorEyreInstall(#[from] color_eyre::Report),
+    ReinstallCommandFailed {
+        exit_code: ExitStatus,
+        command_line: String,
+    },
 
-    #[error("IO error")]
-    IO(#[from] std::io::Error),
+    PackageNotFound {
+        package_name: String,
+    },
 
-    #[error("TOML deserialization error")]
-    TOMLDeserialization(#[from] toml::de::Error),
+    // -- Internal errors --
+    OsStringConversion {
+        original: OsString,
+    },
 
-    #[error("TOML serialization error")]
-    TOMLSerialization(#[from] toml::ser::Error),
+    // -- Externals --
+    #[from]
+    IO(std::io::Error),
 
-    #[error("Internal error:\nFailure while parsing command line arguments: '{0}'")]
+    #[from]
+    TOMLDeserialization(toml::de::Error),
+
+    #[from]
+    TOMLSerialization(toml::ser::Error),
+
+    #[from]
     ClapArguments(&'static str),
-
-    #[error("Install command failed with exit code {0}")]
-    InstallCommandFailed(ExitStatus),
-
-    #[error("Remove command failed with exit code {0}")]
-    RemoveCommandFailed(ExitStatus),
-
-    #[error("Reinstall command failed with exit code {0}")]
-    ReinstallCommandFailed(ExitStatus),
 }
+
+#[allow(clippy::use_debug)]
+impl std::fmt::Display for Error {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(fmt, "{self:?}")
+    }
+}
+
+impl std::error::Error for Error {}
