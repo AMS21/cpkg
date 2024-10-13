@@ -1,10 +1,22 @@
 [package]
-name = "cpkg"
+name = "cpkg-bin"
 description = "The cross-platform meta package manager"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.74"
 build = "build.rs"
+license = "MIT"
+repository = "https://github.com/AMS21/cpkg"
+readme = "README.md"
+exclude = [
+  ".github/*",
+  ".gitignore",
+  ".gitattributes",
+  "database.toml",
+  "deny.toml",
+  ".clippy.toml",
+  "tests/*",
+]
 
 [lib]
 name = "cpkg"

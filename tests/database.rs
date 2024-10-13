@@ -12,7 +12,7 @@ fn all_packages_are_installable() {
     let database = load_from_file("database.toml").unwrap();
 
     for package in database.packages.keys() {
-        let mut cmd = Command::cargo_bin(env!("CARGO_PKG_NAME")).unwrap();
+        let mut cmd = Command::cargo_bin("cpkg").unwrap();
 
         cmd.arg("install");
         cmd.arg(package);
