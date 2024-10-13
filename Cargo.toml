@@ -12,10 +12,9 @@ exclude = [
   ".github/*",
   ".gitignore",
   ".gitattributes",
-  "database.toml",
+  #"database.toml", # TODO: Remove once we no longer hard code the path and actually download it
   "deny.toml",
   ".clippy.toml",
-  "tests/*",
 ]
 
 [lib]
