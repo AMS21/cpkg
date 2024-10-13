@@ -3,6 +3,7 @@ use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
 use crate::subcommand::remove;
+use crate::utility::command_to_full_string;
 use std::path::PathBuf;
 
 // TODO: Instead of installed boolean just have executable_path as Option
@@ -75,7 +76,10 @@ impl Provider for PamacProvider {
         let return_code = command.spawn()?.wait()?;
 
         if !return_code.success() {
-            return Err(Error::InstallCommandFailed(return_code));
+            return Err(Error::InstallCommandFailed {
+                exit_code: return_code,
+                command_line: command_to_full_string(&command)?,
+            });
         }
 
         Ok(())
@@ -105,7 +109,10 @@ impl Provider for PamacProvider {
         let return_code = command.spawn()?.wait()?;
 
         if !return_code.success() {
-            return Err(Error::RemoveCommandFailed(return_code));
+            return Err(Error::RemoveCommandFailed {
+                exit_code: return_code,
+                command_line: command_to_full_string(&command)?,
+            });
         }
 
         Ok(())
@@ -137,7 +144,10 @@ impl Provider for PamacProvider {
         let return_code = command.spawn()?.wait()?;
 
         if !return_code.success() {
-            return Err(Error::RemoveCommandFailed(return_code));
+            return Err(Error::RemoveCommandFailed {
+                exit_code: return_code,
+                command_line: command_to_full_string(&command)?,
+            });
         }
 
         Ok(())

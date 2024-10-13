@@ -3,7 +3,7 @@ name = "cpkg-bin"
 description = "The cross-platform meta package manager"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.74"
+rust-version = "1.75"
 build = "build.rs"
 license = "MIT"
 repository = "https://github.com/AMS21/cpkg"
@@ -35,9 +35,10 @@ clap = { version = "4.5.20", features = [
   "suggestions",
   "cargo",
 ], default-features = false }
-color-eyre = { version = "0.6.3", default-features = false }
+derive_more = { version = "1.0.0", features = [
+  "from",
+], default-features = false }
 serde = { version = "1.0.210", features = ["derive"], default-features = false }
-thiserror = { version = "1.0.64", default-features = false }
 toml = { version = "0.8.19", features = ["parse"], default-features = false }
 which = { version = "6.0.3", default-features = false }
 

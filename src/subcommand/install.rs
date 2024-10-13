@@ -44,10 +44,9 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
             if let Some(application) = database.packages.get(package_name as &str) {
                 translated_packages.push(provider.lookup_package(application, package_name));
             } else {
-                // TODO: Don't return generic error
-                return Err(Error::Generic(format!(
-                    "Package '{package_name}' not found in database"
-                )));
+                return Err(Error::PackageNotFound {
+                    package_name: (*package_name).to_string(),
+                });
             }
         }
 
