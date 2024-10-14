@@ -2,4 +2,5 @@
 
 [ccmake]
 apt = "cmake-curses-gui"
+dnf = "cmake"
 pamac = "cmake"

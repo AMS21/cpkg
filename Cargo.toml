@@ -53,11 +53,21 @@ clap_mangen = { version = "0.2.24", default-features = false }
 assert_cmd = { version = "2.0.16", default-features = false }
 
 [features]
-default = ["apt", "pamac"]
+default = ["apt", "dnf", "pamac"]
 
 # Package providers
 apt = []
+dnf = []
 pamac = []
+
+# Private features
+
+# NOTE: Do not enable this feature unless you know what you are doing.
+#       Because package managers like dnf do not support dry runs we use
+#       this feature to enable tests which run actual installations in CI.
+#       As this is obvoiusly not something you want to run on your actual system
+#       you should probably not enable this feature.
+_run_actual_installs_when_testing = []
 
 [profile.release]
 codegen-units = 1

@@ -6,6 +6,8 @@ use crate::subcommand::remove;
 
 #[cfg(feature = "apt")]
 pub mod apt;
+#[cfg(feature = "dnf")]
+pub mod dnf;
 #[cfg(feature = "pamac")]
 pub mod pamac;
 
@@ -35,6 +37,8 @@ pub fn get_all_providers() -> Vec<Box<dyn Provider>> {
     vec![
         #[cfg(feature = "apt")]
         Box::new(apt::AptProvider::initialize()),
+        #[cfg(feature = "dnf")]
+        Box::new(dnf::DnfProvider::initialize()),
         #[cfg(feature = "pamac")]
         Box::new(pamac::PamacProvider::initialize()),
     ]
