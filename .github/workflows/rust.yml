@@ -130,7 +130,16 @@ jobs:
       run: cargo doc --workspace --all-features --no-deps --document-private-items
 
   coverage:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
 
     steps:
     - name: Checkout
@@ -153,4 +162,5 @@ jobs:
       uses: codecov/codecov-action@v4
       with:
         fail_ci_if_error: true
+        flags: ${{ matrix.os }}
         token: ${{ secrets.CODECOV_TOKEN }}
