@@ -1,10 +1,5 @@
 use crate::prelude::*;
 
-#[must_use]
-pub fn file_exists(path: &str) -> bool {
-    std::path::Path::new(path).exists()
-}
-
 pub fn command_to_full_string(command: &std::process::Command) -> Result<String> {
     // Push the called program name
     let program_string = command.get_program();
