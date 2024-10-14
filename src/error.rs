@@ -5,17 +5,7 @@ use std::process::ExitStatus;
 #[derive(Debug, From)]
 pub enum Error {
     // -- User errors --
-    InstallCommandFailed {
-        exit_code: ExitStatus,
-        command_line: String,
-    },
-
-    RemoveCommandFailed {
-        exit_code: ExitStatus,
-        command_line: String,
-    },
-
-    ReinstallCommandFailed {
+    CommandFailed {
         exit_code: ExitStatus,
         command_line: String,
     },

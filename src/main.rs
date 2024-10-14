@@ -7,33 +7,16 @@ const EXIT_CRASH: i32 = -1;
 fn handle_error(error: Error) -> i32 {
     match error {
         // -- User errors --
-        Error::InstallCommandFailed {
+        Error::CommandFailed {
             exit_code,
             command_line,
         } => {
-            eprintln!("Package installation failed with {exit_code}");
+            eprintln!("Subcommand failed with {exit_code}");
             eprintln!("Full commandline: {command_line}");
 
             EXIT_FAILURE
         }
-        Error::RemoveCommandFailed {
-            exit_code,
-            command_line,
-        } => {
-            eprintln!("Package removal failed with {exit_code}");
-            eprintln!("Full commandline: {command_line}");
 
-            EXIT_FAILURE
-        }
-        Error::ReinstallCommandFailed {
-            exit_code,
-            command_line,
-        } => {
-            eprintln!("Package reinstall failed with {exit_code}");
-            eprintln!("Full commandline: {command_line}");
-
-            EXIT_FAILURE
-        }
         Error::PackageNotFound { package_name } => {
             eprintln!("Package not found: '{package_name}'");
 
