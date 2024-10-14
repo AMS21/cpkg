@@ -59,21 +59,26 @@ impl Provider for AptProvider {
 
     fn initialize() -> Self {
         if cfg!(target_os = "linux") {
-            which::which("apt").map_or_else(
-                |_| Self {
-                    executable_path: PathBuf::new(),
-                    installed: false,
-                },
-                |apt_path| Self {
+            // First search for 'apt'
+            if let Ok(apt_path) = which::which("apt") {
+                return Self {
                     executable_path: apt_path,
                     installed: true,
-                },
-            )
-        } else {
-            Self {
-                executable_path: PathBuf::new(),
-                installed: false,
+                };
             }
+
+            // Then search for 'apt-get'
+            if let Ok(apt_get_path) = which::which("apt-get") {
+                return Self {
+                    executable_path: apt_get_path,
+                    installed: true,
+                };
+            }
+        }
+
+        Self {
+            executable_path: PathBuf::new(),
+            installed: false,
         }
     }
 
