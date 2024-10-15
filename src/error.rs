@@ -20,6 +20,10 @@ pub enum Error {
         provider: &'static str,
     },
 
+    NoSuperuserLauncherFound {
+        provider: &'static str,
+    },
+
     // -- Internal errors --
     OsStringConversion {
         original: OsString,

@@ -33,6 +33,12 @@ fn handle_error(error: Error) -> i32 {
             EXIT_FAILURE
         }
 
+        Error::NoSuperuserLauncherFound { provider } => {
+            eprintln!("Provider '{provider}' requires superuser privileges but no suitable launcher was found");
+
+            EXIT_FAILURE
+        }
+
         // -- Internal errors --
         #[allow(clippy::use_debug)]
         Error::OsStringConversion { .. }

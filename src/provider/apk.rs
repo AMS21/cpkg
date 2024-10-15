@@ -2,7 +2,9 @@ use crate::application::Application;
 use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
+use crate::superuser::get_superuser_launcher_path;
 use crate::utility::command_to_full_string;
+use is_superuser::is_superuser;
 use std::path::PathBuf;
 
 #[allow(clippy::module_name_repetitions)]
@@ -14,8 +16,28 @@ pub struct ApkProvider {
 // NOTE: apk doesn't support assume yes it will never ask for conformation.
 
 impl ApkProvider {
+    fn get_superuser_command(&self) -> Result<std::process::Command> {
+        // if we are root then we don't need to use any superuser launcher
+        if is_superuser() {
+            return Ok(std::process::Command::new(&self.executable_path));
+        }
+
+        // Otherwise we need to use the superuser launcher
+        let superuser_launcher =
+            get_superuser_launcher_path().ok_or(Error::NoSuperuserLauncherFound {
+                provider: self.name(),
+            })?;
+
+        let mut command = std::process::Command::new(superuser_launcher);
+
+        // Set the executable as the first argument
+        command.arg(&self.executable_path);
+
+        Ok(command)
+    }
+
     fn run_command(&self, command_name: &str, packages: &[String], dry_run: bool) -> Result<()> {
-        let mut command = std::process::Command::new(&self.executable_path);
+        let mut command = self.get_superuser_command()?;
 
         command.arg(command_name);
 
@@ -77,6 +99,9 @@ impl Provider for ApkProvider {
     }
 
     fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         self.run_command("add", packages, options.dry_run)
     }
 
@@ -85,6 +110,9 @@ impl Provider for ApkProvider {
         packages: &[String],
         options: &crate::subcommand::remove::Options,
     ) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         self.run_command("del", packages, options.dry_run)
     }
 
@@ -93,6 +121,9 @@ impl Provider for ApkProvider {
         packages: &[String],
         options: &crate::subcommand::reinstall::Options,
     ) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         // NOTE: apk doesn't support reinstalling so instead we delete and then add again the package
         self.run_command("del", packages, options.dry_run)?;
 
@@ -100,6 +131,9 @@ impl Provider for ApkProvider {
     }
 
     fn update_packages(&self, options: &crate::subcommand::update::Options) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         self.run_command("upgrade", &[], options.dry_run)
     }
 }
