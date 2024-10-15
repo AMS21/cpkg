@@ -113,4 +113,8 @@ impl Provider for AptProvider {
     ) -> Result<()> {
         self.run_command("reinstall", packages, options.assume_yes, options.dry_run)
     }
+
+    fn update_packages(&self, options: &crate::subcommand::update::Options) -> Result<()> {
+        self.run_command("upgrade", &[], options.assume_yes, options.dry_run)
+    }
 }

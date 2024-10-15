@@ -17,6 +17,7 @@ pub fn get_command_line() -> Command {
             get_install_subcommand(),
             get_remove_subcommand(),
             get_reinstall_subcommand(),
+            get_update_subcommand(),
         ])
 }
 
@@ -61,6 +62,16 @@ pub fn get_reinstall_subcommand() -> Command {
             get_argument_assume_yes(),
             get_argument_dry_run(),
         ])
+}
+
+pub const SUBCOMMAND_UPDATE: &str = "update";
+
+#[must_use]
+pub fn get_update_subcommand() -> Command {
+    Command::new(SUBCOMMAND_UPDATE)
+        .about("Updates all installed packages")
+        .visible_alias("upgrade")
+        .args([get_argument_assume_yes(), get_argument_dry_run()])
 }
 
 // Arguments

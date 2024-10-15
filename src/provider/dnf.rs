@@ -138,4 +138,16 @@ impl Provider for DnfProvider {
 
         self.run_command("reinstall", packages, options.assume_yes)
     }
+
+    fn update_packages(&self, options: &crate::subcommand::update::Options) -> Result<()> {
+        if options.dry_run {
+            return Err(Error::OptionNotSupported {
+                option_name: "dry run",
+                operation: "update",
+                provider: self.name(),
+            });
+        }
+
+        self.run_command("update", &[], options.assume_yes)
+    }
 }

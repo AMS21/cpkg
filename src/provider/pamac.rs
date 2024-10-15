@@ -116,4 +116,8 @@ impl Provider for PamacProvider {
         // NOTE: pamac's reinstall can't handle dry run
         self.run_command("reinstall", packages, options.assume_yes, false)
     }
+
+    fn update_packages(&self, options: &crate::subcommand::update::Options) -> Result<()> {
+        self.run_command("update", &[], options.assume_yes, options.dry_run)
+    }
 }

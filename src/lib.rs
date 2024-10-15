@@ -11,6 +11,7 @@ use prelude::*;
 use subcommand::install;
 use subcommand::reinstall;
 use subcommand::remove;
+use subcommand::update;
 
 pub fn run_main() -> Result<()> {
     // Handle command line arguments
@@ -27,6 +28,10 @@ pub fn run_main() -> Result<()> {
 
         Some((cli::SUBCOMMAND_REINSTALL, sub_matches)) => {
             reinstall::run(sub_matches)?;
+        }
+
+        Some((cli::SUBCOMMAND_UPDATE, sub_matches)) => {
+            update::run(sub_matches)?;
         }
 
         #[allow(clippy::unreachable)]
