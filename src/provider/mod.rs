@@ -5,6 +5,8 @@ use crate::subcommand::reinstall;
 use crate::subcommand::remove;
 use crate::subcommand::update;
 
+#[cfg(feature = "apk")]
+pub mod apk;
 #[cfg(feature = "apt")]
 pub mod apt;
 #[cfg(feature = "dnf")]
@@ -38,6 +40,8 @@ pub trait Provider {
 #[must_use]
 pub fn get_all_providers() -> Vec<Box<dyn Provider>> {
     vec![
+        #[cfg(feature = "apk")]
+        Box::new(apk::ApkProvider::initialize()),
         #[cfg(feature = "apt")]
         Box::new(apt::AptProvider::initialize()),
         #[cfg(feature = "dnf")]

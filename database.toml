@@ -1,6 +1,7 @@
 [cmake]
 
 [ccmake]
+apk = "cmake"            # TODO: Starting with 3.19 Alpine has a separate package called 'ccmake' but we currently have no way of correctly handling this.
 apt = "cmake-curses-gui"
 dnf = "cmake"
 pamac = "cmake"
