@@ -1,0 +1,116 @@
+name: dnf
+
+on:
+  pull_request:
+    branches: ["*"]
+    paths:
+      # Workflow file itself
+      - '.github/workflows/dnf.yml'
+      # Rust files
+      - '**.rs'
+      # Cargo files
+      - 'Cargo.lock'
+      - 'Cargo.toml'
+      # database
+      - "database.toml"
+  push:
+    branches: ["main", "develop"]
+    paths:
+      # Workflow file itself
+      - '.github/workflows/dnf.yml'
+      # Rust files
+      - '**.rs'
+      # Cargo files
+      - 'Cargo.lock'
+      - 'Cargo.toml'
+      # database
+      - "database.toml"
+  workflow_dispatch:
+
+concurrency:
+  # Documentation suggests ${{ github.head_ref }}, but that's only available on pull_request/pull_request_target triggers, so using ${{ github.ref }}.
+  # On main, we want all builds to complete even if merging happens faster to make it easier to discover at which point something broke.
+  group: ${{ github.ref == 'refs/heads/main' && format('ci-main-{0}', github.sha) || format('ci-{0}', github.ref) }}-${{github.workflow }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  dnf:
+    runs-on: ubuntu-latest
+    container:
+      image: ams21/cpkg-docker:${{ matrix.version }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        version:
+          # Alma Linux
+          - "almalinux-9"
+          - "almalinux-8"
+
+          # Amazon Linux
+          - "amazonlinux-2"
+          - "amazonlinux-1"
+          - "amazonlinux-2023"
+          - "amazonlinux-2022"
+          - "amazonlinux-2018.03"
+          - "amazonlinux-2017.12"
+          - "amazonlinux-2017.09"
+          - "amazonlinux-2017.03"
+          - "amazonlinux-2016.09"
+
+          # Fedora
+          - "fedora-41"
+          - "fedora-40"
+          - "fedora-39"
+          - "fedora-38"
+          - "fedora-37"
+          - "fedora-36"
+          - "fedora-35"
+          - "fedora-34"
+          - "fedora-33"
+          - "fedora-32"
+          - "fedora-31"
+          - "fedora-30"
+          - "fedora-29"
+          - "fedora-28"
+          - "fedora-27"
+          - "fedora-26"
+          - "fedora-25"
+          - "fedora-24"
+          - "fedora-23"
+          - "fedora-22"
+          - "fedora-21"
+
+          # Mageia
+          - "mageia-cauldron"
+          - "mageia-9"
+          - "mageia-8"
+          - "mageia-7"
+          - "mageia-6"
+
+          # Oracle Linux
+          - "oraclelinux-9"
+          - "oraclelinux-8"
+          - "oraclelinux-7"
+
+          # Photon OS
+          - "photonos-5"
+          - "photonos-4"
+          - "photonos-3"
+          - "photonos-2"
+          - "photonos-1"
+
+          # Rocky Linux
+          - "rockylinux-9"
+          - "rockylinux-8"
+
+    steps:
+      - name: Checkout
+        uses: taiki-e/checkout-action@v1
+
+      - name: Test
+        run: cargo test --no-default-features --features "dnf,_run_actual_installs_when_testing"

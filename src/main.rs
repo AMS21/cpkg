@@ -23,6 +23,16 @@ fn handle_error(error: Error) -> i32 {
             EXIT_FAILURE
         }
 
+        Error::OptionNotSupported {
+            option_name,
+            operation,
+            provider,
+        } => {
+            eprintln!("Option '{option_name}' is not supported for '{operation}' by {provider}");
+
+            EXIT_FAILURE
+        }
+
         // -- Internal errors --
         #[allow(clippy::use_debug)]
         Error::OsStringConversion { .. }

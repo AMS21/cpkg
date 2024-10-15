@@ -105,6 +105,14 @@ impl Provider for PamacProvider {
         packages: &[String],
         options: &crate::subcommand::reinstall::Options,
     ) -> Result<()> {
+        if options.dry_run {
+            return Err(Error::OptionNotSupported {
+                option_name: "dry run",
+                operation: "reinstall",
+                provider: self.name(),
+            });
+        }
+
         // NOTE: pamac's reinstall can't handle dry run
         self.run_command("reinstall", packages, options.assume_yes, false)
     }

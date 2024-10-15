@@ -14,6 +14,12 @@ pub enum Error {
         package_name: String,
     },
 
+    OptionNotSupported {
+        option_name: &'static str,
+        operation: &'static str,
+        provider: &'static str,
+    },
+
     // -- Internal errors --
     OsStringConversion {
         original: OsString,
