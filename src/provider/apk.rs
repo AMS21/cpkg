@@ -77,6 +77,9 @@ impl Provider for ApkProvider {
     }
 
     fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         self.run_command("add", packages, options.dry_run)
     }
 
@@ -85,6 +88,9 @@ impl Provider for ApkProvider {
         packages: &[String],
         options: &crate::subcommand::remove::Options,
     ) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         self.run_command("del", packages, options.dry_run)
     }
 
@@ -93,6 +99,9 @@ impl Provider for ApkProvider {
         packages: &[String],
         options: &crate::subcommand::reinstall::Options,
     ) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         // NOTE: apk doesn't support reinstalling so instead we delete and then add again the package
         self.run_command("del", packages, options.dry_run)?;
 
@@ -100,6 +109,9 @@ impl Provider for ApkProvider {
     }
 
     fn update_packages(&self, options: &crate::subcommand::update::Options) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false)?;
+
         self.run_command("upgrade", &[], options.dry_run)
     }
 }
