@@ -29,13 +29,11 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     // TODO: Don't hardcode database path
     let database = database::load_from_file("database.toml")?;
 
-    let providers = provider::get_all_providers();
+    let providers = provider::get_installed_providers();
 
     // TODO: Use a hiarchey to install and not all of them
     for provider in providers {
-        if !provider.is_installed() {
-            continue;
-        }
+        debug_assert!(provider.is_installed(), "Provider should be installed");
 
         // Translate packages
         let mut translated_packages = Vec::with_capacity(packages.len());
