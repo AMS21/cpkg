@@ -122,8 +122,5 @@ jobs:
       - name: Checkout
         uses: taiki-e/checkout-action@v1
 
-      - name: Update apt
-        run: apt update
-
       - name: Test
         run: cargo test --no-default-features --features "apt"

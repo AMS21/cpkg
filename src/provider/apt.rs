@@ -95,6 +95,9 @@ impl Provider for AptProvider {
     }
 
     fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false, false)?;
+
         self.run_command("install", packages, options.assume_yes, options.dry_run)
     }
 
@@ -103,6 +106,9 @@ impl Provider for AptProvider {
         packages: &[String],
         options: &crate::subcommand::remove::Options,
     ) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false, false)?;
+
         self.run_command("remove", packages, options.assume_yes, options.dry_run)
     }
 
@@ -111,10 +117,16 @@ impl Provider for AptProvider {
         packages: &[String],
         options: &crate::subcommand::reinstall::Options,
     ) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false, false)?;
+
         self.run_command("reinstall", packages, options.assume_yes, options.dry_run)
     }
 
     fn update_packages(&self, options: &crate::subcommand::update::Options) -> Result<()> {
+        // Update the package list first
+        self.run_command("update", &[], false, false)?;
+
         self.run_command("upgrade", &[], options.assume_yes, options.dry_run)
     }
 }
