@@ -5,6 +5,7 @@ pub mod error;
 pub mod prelude;
 pub mod provider;
 pub mod subcommand;
+pub mod superuser;
 pub mod utility;
 
 use prelude::*;
