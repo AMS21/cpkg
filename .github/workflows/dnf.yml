@@ -63,6 +63,7 @@ jobs:
           - "amazonlinux-2016.09"
 
           # Fedora
+          - "fedora-42"
           - "fedora-41"
           - "fedora-40"
           - "fedora-39"
