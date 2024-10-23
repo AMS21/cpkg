@@ -16,11 +16,11 @@ fn main() -> Result<(), Error> {
 
     // Generate shell completions
     for &shell in Shell::value_variants() {
-        generate_to(shell, &mut command_line, crate_name!(), &out_directory)?;
+        generate_to(shell, &mut command_line, COMMAND_NAME, &out_directory)?;
     }
 
-    generate_to(Fig, &mut command_line, crate_name!(), &out_directory)?;
-    generate_to(Nushell, &mut command_line, crate_name!(), &out_directory)?;
+    generate_to(Fig, &mut command_line, COMMAND_NAME, &out_directory)?;
+    generate_to(Nushell, &mut command_line, COMMAND_NAME, &out_directory)?;
 
     // Generate man pages
     let man = clap_mangen::Man::new(command_line);
@@ -28,7 +28,7 @@ fn main() -> Result<(), Error> {
 
     man.render(&mut buffer)?;
 
-    std::fs::write(out_directory.join(format!("{}.1", crate_name!())), buffer)?;
+    std::fs::write(out_directory.join(format!("{COMMAND_NAME}.1")), buffer)?;
 
     Ok(())
 }
