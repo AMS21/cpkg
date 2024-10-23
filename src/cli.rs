@@ -1,13 +1,14 @@
 use clap::crate_authors;
 use clap::crate_description;
-use clap::crate_name;
 use clap::crate_version;
 use clap::Arg;
 use clap::Command;
 
+pub const COMMAND_NAME: &str = "cpkg";
+
 #[must_use]
 pub fn get_command_line() -> Command {
-    Command::new(crate_name!())
+    Command::new(COMMAND_NAME)
         .about(crate_description!())
         .author(crate_authors!("\n"))
         .version(crate_version!())
