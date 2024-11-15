@@ -160,7 +160,7 @@ jobs:
       run: cargo tarpaulin --verbose --all-targets --doc --all-features --follow-exec --locked --post-test-delay 2 --out Xml --engine llvm
 
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         fail_ci_if_error: true
         flags: ${{ matrix.os }}
