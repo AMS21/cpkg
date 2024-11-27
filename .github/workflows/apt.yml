@@ -73,6 +73,7 @@ jobs:
           - "kalilinux-last-release"
 
           # Linux Mint
+          - "linuxmint-22.1"
           - "linuxmint-22"
           - "linuxmint-21.3"
           - "linuxmint-21.2"
