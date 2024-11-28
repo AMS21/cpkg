@@ -16,7 +16,9 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     // Get all packages the user wants to install from the command line
     let packages: Vec<&String> = matches
         .get_many::<String>(ARGUMENT_PACKAGES)
-        .ok_or_else(|| Error::ClapArguments("PACKAGES argument should have been set"))?
+        .ok_or(Error::ClapArguments(
+            "PACKAGES argument should have been set",
+        ))?
         .collect();
 
     // Get options

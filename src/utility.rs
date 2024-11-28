@@ -6,7 +6,7 @@ pub fn command_to_full_string(command: &std::process::Command) -> Result<String>
     let mut command_string = command
         .get_program()
         .to_str()
-        .ok_or(Error::OsStringConversion {
+        .ok_or_else(|| Error::OsStringConversion {
             original: program_string.into(),
         })?
         .to_owned();
@@ -16,7 +16,7 @@ pub fn command_to_full_string(command: &std::process::Command) -> Result<String>
 
     // Push all the arguments separated with a whitespace
     for argument in command.get_args() {
-        command_string.push_str(argument.to_str().ok_or(Error::OsStringConversion {
+        command_string.push_str(argument.to_str().ok_or_else(|| Error::OsStringConversion {
             original: argument.into(),
         })?);
         command_string.push(' ');
