@@ -24,7 +24,7 @@ impl ApkProvider {
 
         // Otherwise we need to use the superuser launcher
         let superuser_launcher =
-            get_superuser_launcher_path().ok_or(Error::NoSuperuserLauncherFound {
+            get_superuser_launcher_path().ok_or_else(|| Error::NoSuperuserLauncherFound {
                 provider: self.name(),
             })?;
 
