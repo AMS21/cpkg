@@ -41,7 +41,7 @@ derive_more = { version = "1.0.0", features = [
 is_superuser = "1.0.1"
 serde = { version = "1.0.216", features = ["derive"], default-features = false }
 toml = { version = "0.8.19", features = ["parse"], default-features = false }
-which = { version = "7.0.0", default-features = false }
+which = { version = "7.0.1", default-features = false }
 
 [build-dependencies]
 clap = { version = "4.5.23", features = ["cargo"], default-features = false }
