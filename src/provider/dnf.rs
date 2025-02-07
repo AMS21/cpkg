@@ -1,4 +1,5 @@
-use crate::application::Application;
+use crate::application::{Application, Value};
+use crate::lookup::LookupResult;
 use crate::prelude::*;
 use crate::provider::Provider;
 use crate::subcommand::install;
@@ -87,12 +88,14 @@ impl Provider for DnfProvider {
         self.installed
     }
 
-    fn lookup_package(&self, application: &Application, package_name: &str) -> String {
-        if let Some(dnf_string) = &application.dnf {
-            return dnf_string.to_string();
+    fn lookup_package(&self, application: &Application, package_name: &str) -> LookupResult {
+        match &application.dnf {
+            Some(Value::String(string)) => LookupResult::InstallWith(string.clone()),
+            Some(Value::Bool(true)) => LookupResult::AlwaysInstalled,
+            Some(Value::Bool(false)) => LookupResult::NeverInstalled,
+            Some(Value::Object(_object)) => LookupResult::NeverInstalled,
+            None => LookupResult::InstallWith(package_name.to_owned()),
         }
-
-        package_name.to_owned()
     }
 
     fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()> {
