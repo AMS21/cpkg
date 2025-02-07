@@ -1,10 +1,12 @@
+use std::process::ExitCode;
+
 use cpkg::prelude::*;
 use cpkg::run_main;
 
-const EXIT_FAILURE: i32 = 1;
-const EXIT_CRASH: i32 = -1;
+const EXIT_FAILURE: u8 = 1;
+const EXIT_CRASH: u8 = 255;
 
-fn handle_error(error: Error) -> i32 {
+fn handle_error(error: Error) -> u8 {
     match error {
         // -- User errors --
         Error::CommandFailed {
@@ -54,17 +56,11 @@ fn handle_error(error: Error) -> i32 {
     }
 }
 
-fn main() {
+fn main() -> ExitCode {
     let result = run_main();
 
     match result {
-        Ok(()) => {}
-
-        Err(error) => {
-            let exit_code = handle_error(error);
-
-            #[allow(clippy::exit)]
-            std::process::exit(exit_code);
-        }
+        Ok(()) => ExitCode::SUCCESS,
+        Err(error) => ExitCode::from(handle_error(error)),
     }
 }
