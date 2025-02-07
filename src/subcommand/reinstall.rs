@@ -2,6 +2,7 @@ use crate::cli::ARGUMENT_ASSUME_YES;
 use crate::cli::ARGUMENT_DRY_RUN;
 use crate::cli::ARGUMENT_PACKAGES;
 use crate::database;
+use crate::lookup::LookupResult;
 use crate::prelude::*;
 use crate::provider;
 
@@ -42,7 +43,12 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
 
         for package_name in &packages {
             if let Some(application) = database.packages.get(package_name as &str) {
-                translated_packages.push(provider.lookup_package(application, package_name));
+                // Lookup package with our provider
+                let package_lookup = provider.lookup_package(application, package_name);
+
+                if let LookupResult::InstallWith(package) = package_lookup {
+                    translated_packages.push(package);
+                }
             } else {
                 return Err(Error::PackageNotFound {
                     package_name: (*package_name).to_string(),

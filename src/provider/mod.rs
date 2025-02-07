@@ -1,4 +1,5 @@
 use crate::application::Application;
+use crate::lookup::LookupResult;
 use crate::prelude::*;
 use crate::subcommand::install;
 use crate::subcommand::reinstall;
@@ -26,7 +27,7 @@ pub trait Provider {
     #[must_use]
     fn is_installed(&self) -> bool;
 
-    fn lookup_package(&self, application: &Application, package_name: &str) -> String;
+    fn lookup_package(&self, application: &Application, package_name: &str) -> LookupResult;
 
     fn install_packages(&self, packages: &[String], options: &install::Options) -> Result<()>;
 

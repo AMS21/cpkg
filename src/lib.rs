@@ -2,6 +2,7 @@ pub mod application;
 pub mod cli;
 pub mod database;
 pub mod error;
+pub mod lookup;
 pub mod prelude;
 pub mod provider;
 pub mod subcommand;
