@@ -1,6 +1,6 @@
 use clap::ValueEnum;
-use clap_complete::generate_to;
 use clap_complete::Shell;
+use clap_complete::generate_to;
 use clap_complete_fig::Fig;
 use clap_complete_nushell::Nushell;
 use std::env;

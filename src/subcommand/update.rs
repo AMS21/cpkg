@@ -11,7 +11,6 @@ pub struct Options {
     pub dry_run: bool,
 }
 
-#[allow(clippy::use_debug)]
 pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     // Get options
     let options = Options {

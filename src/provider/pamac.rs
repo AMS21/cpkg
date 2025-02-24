@@ -10,7 +10,7 @@ use std::path::PathBuf;
 
 // TODO: Instead of installed boolean just have executable_path as Option
 
-#[allow(clippy::module_name_repetitions)]
+#[expect(clippy::module_name_repetitions)]
 pub struct PamacProvider {
     executable_path: PathBuf,
     installed: bool,

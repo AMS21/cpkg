@@ -8,7 +8,7 @@ use crate::utility::command_to_full_string;
 use is_superuser::is_superuser;
 use std::path::PathBuf;
 
-#[allow(clippy::module_name_repetitions)]
+#[expect(clippy::module_name_repetitions)]
 pub struct ApkProvider {
     executable_path: PathBuf,
     installed: bool,
