@@ -117,9 +117,6 @@ jobs:
           - "ubuntu-17.04"
           - "ubuntu-16.10"
           - "ubuntu-16.04"
-          - "ubuntu-15.10"
-          - "ubuntu-15.04"
-          - "ubuntu-14.10"
           - "ubuntu-14.04"
 
     steps:
