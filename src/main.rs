@@ -36,13 +36,15 @@ fn handle_error(error: Error) -> u8 {
         }
 
         Error::NoSuperuserLauncherFound { provider } => {
-            eprintln!("Provider '{provider}' requires superuser privileges but no suitable launcher was found");
+            eprintln!(
+                "Provider '{provider}' requires superuser privileges but no suitable launcher was found"
+            );
 
             EXIT_FAILURE
         }
 
         // -- Internal errors --
-        #[allow(clippy::use_debug)]
+        #[expect(clippy::use_debug)]
         Error::OsStringConversion { .. }
         | Error::ClapArguments { .. }
         | Error::IO { .. }

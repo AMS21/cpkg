@@ -1,8 +1,8 @@
+use clap::Arg;
+use clap::Command;
 use clap::crate_authors;
 use clap::crate_description;
 use clap::crate_version;
-use clap::Arg;
-use clap::Command;
 
 pub const COMMAND_NAME: &str = "cpkg";
 

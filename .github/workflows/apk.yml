@@ -49,6 +49,7 @@ jobs:
         version:
           # Alpine
           - "alpine-edge"
+          - "alpine-3.21"
           - "alpine-3.20"
           - "alpine-3.19"
           - "alpine-3.18"
@@ -59,9 +60,7 @@ jobs:
           - "alpine-3.13"
           - "alpine-3.12"
           - "alpine-3.11"
-          - "alpine-3.10"
-          - "alpine-3.9"
-          # NOTE: Anything before 3.9 has too old tools and can't compile our program properly
+          # NOTE: Anything before 3.11 has too old tools and can't compile our program properly
 
     steps:
       - name: Checkout

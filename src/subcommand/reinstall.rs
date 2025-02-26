@@ -12,7 +12,7 @@ pub struct Options {
     pub dry_run: bool,
 }
 
-#[allow(clippy::use_debug)]
+#[expect(clippy::use_debug)]
 pub fn run(matches: &clap::ArgMatches) -> Result<()> {
     // Get all packages the user wants to reinstall from the command line
     let packages: Vec<&String> = matches

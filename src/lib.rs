@@ -36,7 +36,7 @@ pub fn run_main() -> Result<()> {
             update::run(sub_matches)?;
         }
 
-        #[allow(clippy::unreachable)]
+        #[expect(clippy::unreachable)]
         _ => unreachable!("All subcommands should be defined"),
     }
 
