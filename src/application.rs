@@ -21,5 +21,6 @@ pub struct Application {
     pub apk: Option<Value>,
     pub apt: Option<Value>,
     pub dnf: Option<Value>,
+    pub flatpak: Option<Value>,
     pub pamac: Option<Value>,
 }

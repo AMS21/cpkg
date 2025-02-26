@@ -12,6 +12,8 @@ pub mod apk;
 pub mod apt;
 #[cfg(feature = "dnf")]
 pub mod dnf;
+#[cfg(feature = "flatpak")]
+pub mod flatpak;
 #[cfg(feature = "pamac")]
 pub mod pamac;
 
@@ -47,6 +49,8 @@ pub fn get_all_providers() -> Vec<Box<dyn Provider>> {
         Box::new(apt::AptProvider::initialize()),
         #[cfg(feature = "dnf")]
         Box::new(dnf::DnfProvider::initialize()),
+        #[cfg(feature = "flatpak")]
+        Box::new(flatpak::FlatpakProvider::initialize()),
         #[cfg(feature = "pamac")]
         Box::new(pamac::PamacProvider::initialize()),
     ]
