@@ -54,12 +54,13 @@ clap_mangen = { version = "0.2.26", default-features = false }
 assert_cmd = { version = "2.0.16", default-features = false }
 
 [features]
-default = ["apk", "apt", "dnf", "pamac"]
+default = ["apk", "apt", "dnf", "flatpak", "pamac"]
 
 # Package providers
 apk = []
 apt = []
 dnf = []
+flatpak = []
 pamac = []
 
 # Private features

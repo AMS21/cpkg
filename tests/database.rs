@@ -34,12 +34,15 @@ fn all_packages_are_dry_installable() {
 // NOTE: See the note in Cargo.toml for the need of the '_run_actual_installs_when_testing' feature
 //       and why you probably don't want to run this test yourself.
 #[test]
-#[cfg(all(feature = "_run_actual_installs_when_testing", feature = "dnf"))]
+#[cfg(all(
+    feature = "_run_actual_installs_when_testing",
+    any(feature = "dnf", feature = "flatpak")
+))]
 fn all_packages_are_installable() {
     let providers = get_all_providers();
 
-    // Only run this test if the 'dnf' package manager is installed
-    if providers.len() != 1 || providers[0].name() != "dnf" {
+    // Only run this test with a single provider
+    if providers.len() != 1 {
         return;
     }
 

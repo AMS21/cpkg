@@ -10,9 +10,9 @@ fn dry_update_all_packages() {
         return;
     }
 
-    // The 'dnf' package manager cannot handle dry runs so skip the test if it's installed since it will cause an error here
+    // The 'dnf' and 'flatpak' package manager cannot handle dry runs so skip the test if it's installed since it will cause an error here
     for provider in providers {
-        if provider.name() == "dnf" {
+        if provider.name() == "dnf" || provider.name() == "flatpak" {
             return;
         }
     }

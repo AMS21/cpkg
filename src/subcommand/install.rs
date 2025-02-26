@@ -56,6 +56,12 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
             }
         }
 
+        // Check if we even need to install anything
+        if translated_packages.is_empty() {
+            println!("No packages to install with {}", provider.name());
+            continue;
+        }
+
         println!("Installing {:?} with {}", packages, provider.name());
         provider.install_packages(&translated_packages, &options)?;
     }
