@@ -6,4 +6,5 @@ apk = "cmake"            # TODO: Starting with 3.19 Alpine has a separate packag
 apt = "cmake-curses-gui"
 dnf = "cmake"
 pamac = "cmake"
+pacman = "cmake"
 flatpak = false
