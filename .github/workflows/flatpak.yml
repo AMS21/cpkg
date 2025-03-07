@@ -70,6 +70,15 @@ jobs:
           - "amazonlinux-2023"
           - "amazonlinux-2017.12"
 
+          # Arch Linux
+          - "archlinux-latest"
+
+          # Artix Linux
+          - "artixlinux-latest"
+
+          # Cachy OS
+          - "cachyos-latest"
+
           # Debian
           - "debian-testing"
           - "debian-unstable"
