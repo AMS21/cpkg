@@ -51,7 +51,7 @@ pub fn run(matches: &clap::ArgMatches) -> Result<()> {
                 }
             } else {
                 return Err(Error::PackageNotFound {
-                    package_name: (*package_name).to_string(),
+                    package_name: (*package_name).clone(),
                 });
             }
         }
