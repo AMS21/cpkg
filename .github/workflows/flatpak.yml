@@ -168,6 +168,7 @@ jobs:
           - "rockylinux-8"
 
           # Ubuntu
+          - "ubuntu-25.10"
           - "ubuntu-25.04"
           - "ubuntu-24.10"
           - "ubuntu-24.04"
