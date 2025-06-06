@@ -7,6 +7,7 @@ use crate::utility::command_to_full_string;
 use std::path::PathBuf;
 
 #[expect(clippy::module_name_repetitions)]
+#[derive(Debug)]
 pub struct DnfProvider {
     executable_path: PathBuf,
     installed: bool,

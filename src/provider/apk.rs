@@ -9,6 +9,7 @@ use is_superuser::is_superuser;
 use std::path::PathBuf;
 
 #[expect(clippy::module_name_repetitions)]
+#[derive(Debug)]
 pub struct ApkProvider {
     executable_path: PathBuf,
     installed: bool,

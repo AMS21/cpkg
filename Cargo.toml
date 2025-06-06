@@ -86,6 +86,7 @@ opt-level = 3
 [lints.rust]
 #unknown_lints = "warn"
 non_ascii_idents = "deny"
+missing_debug_implementations = "deny"
 
 [lints.clippy]
 # Allowed lints

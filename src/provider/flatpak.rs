@@ -9,6 +9,7 @@ use crate::utility::command_to_full_string;
 use std::path::PathBuf;
 
 #[expect(clippy::module_name_repetitions)]
+#[derive(Debug)]
 pub struct FlatpakProvider {
     executable_path: PathBuf,
     installed: bool,
