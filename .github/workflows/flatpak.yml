@@ -102,6 +102,7 @@ jobs:
           - "elementaryos-ubuntu-noble-unstable"
 
           # Fedora
+          - "fedora-43"
           - "fedora-42"
           - "fedora-41"
           - "fedora-40"
