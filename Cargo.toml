@@ -40,7 +40,7 @@ derive_more = { version = "2.0.1", features = [
 ], default-features = false }
 is_superuser = "1.0.1"
 serde = { version = "1.0.219", features = ["derive"], default-features = false }
-toml = { version = "0.8.22", features = ["parse"], default-features = false }
+toml = { version = "0.8.23", features = ["parse"], default-features = false }
 which = { version = "8.0.0", features = ["real-sys"], default-features = false }
 
 [build-dependencies]
