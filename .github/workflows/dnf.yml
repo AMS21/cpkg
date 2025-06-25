@@ -48,6 +48,7 @@ jobs:
       matrix:
         version:
           # Alma Linux
+          - "almalinux-10"
           - "almalinux-9"
           - "almalinux-8"
 
