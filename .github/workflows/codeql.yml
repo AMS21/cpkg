@@ -1,0 +1,47 @@
+name: "CodeQL Analysis"
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["main", "develop"]
+  schedule:
+    - cron: '0 0 * * 0'  # Runs weekly
+  workflow_dispatch:
+
+concurrency:
+  # Documentation suggests ${{ github.head_ref }}, but that's only available on pull_request/pull_request_target triggers, so using ${{ github.ref }}.
+  # On main, we want all builds to complete even if merging happens faster to make it easier to discover at which point something broke.
+  group: ${{ github.ref == 'refs/heads/main' && format('ci-main-{0}', github.sha) || format('ci-{0}', github.ref) }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  analyze:
+    name: Analyze (CodeQL)
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install rust toolchain
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: "rust"
+
+    - name: Build the project
+      run: cargo build
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
