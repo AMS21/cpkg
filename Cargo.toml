@@ -39,7 +39,7 @@ derive_more = { version = "2.0.1", features = [
   "from",
 ], default-features = false }
 is_superuser = "1.0.1"
-serde = { version = "1.0.223", features = [
+serde = { version = "1.0.225", features = [
   "derive",
   "std",
 ], default-features = false }
