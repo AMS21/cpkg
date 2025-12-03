@@ -35,7 +35,7 @@ clap = { version = "4.5.53", features = [
   "suggestions",
   "cargo",
 ], default-features = false }
-derive_more = { version = "2.0.1", features = [
+derive_more = { version = "2.1.0", features = [
   "from",
 ], default-features = false }
 is_superuser = "1.0.1"
