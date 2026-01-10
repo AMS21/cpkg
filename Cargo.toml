@@ -51,7 +51,7 @@ which = { version = "8.0.0", features = ["real-sys"], default-features = false }
 
 [build-dependencies]
 clap = { version = "4.5.54", features = ["cargo"], default-features = false }
-clap_complete = { version = "4.5.64", default-features = false }
+clap_complete = { version = "4.5.65", default-features = false }
 clap_complete_fig = { version = "4.5.2", default-features = false }
 clap_complete_nushell = { version = "4.5.10", default-features = false }
 clap_mangen = { version = "0.2.31", default-features = false }
