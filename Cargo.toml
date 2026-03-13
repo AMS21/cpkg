@@ -26,7 +26,7 @@ name = "cpkg"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.60", features = [
+clap = { version = "4.6.0", features = [
   "std",
   "color",
   "help",
@@ -50,7 +50,7 @@ toml = { version = "1.0.6", features = [
 which = { version = "8.0.2", features = ["real-sys"], default-features = false }
 
 [build-dependencies]
-clap = { version = "4.5.60", features = ["cargo"], default-features = false }
+clap = { version = "4.6.0", features = ["cargo"], default-features = false }
 clap_complete = { version = "4.5.66", default-features = false }
 clap_complete_fig = { version = "4.5.2", default-features = false }
 clap_complete_nushell = { version = "4.5.10", default-features = false }
