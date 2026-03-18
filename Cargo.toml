@@ -43,7 +43,7 @@ serde = { version = "1.0.228", features = [
   "derive",
   "std",
 ], default-features = false }
-toml = { version = "1.0.6", features = [
+toml = { version = "1.0.7", features = [
   "parse",
   "serde",
 ], default-features = false }
