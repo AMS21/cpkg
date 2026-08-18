@@ -47,7 +47,7 @@ jobs:
         components: clippy
 
     - name: Install cargo-hack
-      uses: taiki-e/install-action@v2.85.13
+      uses: taiki-e/install-action@v2.86.1
       with:
         tool: cargo-hack
 
@@ -100,7 +100,7 @@ jobs:
       with:
         toolchain: ${{ matrix.toolchain }}
 
-    - uses: taiki-e/install-action@v2.85.13
+    - uses: taiki-e/install-action@v2.86.1
       with:
         tool: cargo-hack
 
@@ -146,7 +146,7 @@ jobs:
         toolchain: nightly
 
     - name: Install tarpaulin
-      uses: taiki-e/install-action@v2.85.13
+      uses: taiki-e/install-action@v2.86.1
       with:
         tool: cargo-tarpaulin
 
