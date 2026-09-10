@@ -28,7 +28,7 @@ jobs:
       uses: actions-rust-lang/setup-rust-toolchain@v1
 
     - name: Install taplo
-      uses: taiki-e/install-action@v2.87.7
+      uses: taiki-e/install-action@v2.87.8
       with:
         tool: taplo-cli
 
